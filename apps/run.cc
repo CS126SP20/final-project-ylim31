@@ -13,12 +13,18 @@ using cinder::app::RendererGl;
 namespace myapp {
 
 const int kSamples = 8;
-const int kWidth = 800;
-const int kHeight = 800;
+
+//Number of tiles in a row/col
+const int kDimension = 16;
+const int kTileSize = 50;
+
+const int kWidth = static_cast<int>(kDimension * kTileSize);
+const int kHeight = static_cast<int>(kDimension * kTileSize);
 
 void SetUp(App::Settings* settings) {
   settings->setWindowSize(kWidth, kHeight);
   settings->setTitle("My CS 126 Application");
+
 }
 
 }  // namespace myapp
