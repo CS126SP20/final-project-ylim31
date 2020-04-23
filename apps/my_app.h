@@ -4,7 +4,7 @@
 #define FINALPROJECT_APPS_MYAPP_H_
 
 #include <cinder/app/App.h>
-
+#include "../src/engine.h"
 
 namespace myapp {
 
@@ -15,6 +15,12 @@ class MyApp : public cinder::app::App {
   void update() override;
   void draw() override;
   void keyDown(cinder::app::KeyEvent) override;
+
+ private:
+  void DrawAlienWave() const;
+  space_invader::Engine engine;
+  const size_t alien_size;
+
 };
 
 }  // namespace myapp

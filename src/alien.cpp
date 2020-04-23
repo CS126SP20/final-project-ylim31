@@ -3,19 +3,23 @@
 //
 
 #include "alien.h"
+#include "location.h"
 
 namespace space_invader {
-Segment::Segment(const Location& location)
+Alien::Alien(const Location& location)
     : location_(location), visible_{true} {}
 
-Location Segment::GetLocation() const { return location_; }
+//copy constructor
+Location Alien::GetLocation() const { return location_; }
 
-Location Segment::SetLocation(const Location& location) {
+Location Alien::SetLocation(const Location& location) {
   location_ = location;
   return location_;
 }
 
-void Segment::SetVisibility(bool visible) { visible_ = visible; }
+void Alien::SetVisibility(bool visible) { visible_ = visible; }
 
-bool Segment::IsVisibile() const { return visible_; }
+bool Alien::IsVisibile() const { return visible_; }
+
+
 }

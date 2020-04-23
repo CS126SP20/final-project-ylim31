@@ -39,8 +39,6 @@ class Location {
   int col_;
 };
 
-std::ostream& operator<<(std::ostream& os, const Location& location);
-
 }
 
 #endif  // FINALPROJECT_LOCATION_H

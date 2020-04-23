@@ -8,13 +8,16 @@
 #include "location.h"
 namespace space_invader {
 // Represents an alien
-class Segment {
+class Alien {
  public:
-  explicit Segment(const Location& location);
+  explicit Alien(const Location& location);
   Location GetLocation() const;
   Location SetLocation(const Location&);
   void SetVisibility(bool visible);
   bool IsVisibile() const;
+
+  constexpr static float WIDTH = 48;
+  constexpr static float HEIGHT = 32;
  private:
   Location location_;
   bool visible_;
