@@ -3,13 +3,26 @@
 //
 
 #include "engine.h"
+#include "alien.h"
 
 namespace space_invader {
 AlienWave Engine::GetAlienWave() const {
   return alien_wave;
 }
 void Engine::Step() {
-  Alien alien = alien_wave.Tail();
-  alien_wave.FillWave(alien);
+  int new_row = 0;
+  int new_col = 0;
+  //Location location(1, 1);
+ // alien_wave.FillWave(Alien(location));
+
+  for (int i = 0; i < width - 5; i++) {
+      if (i % 2 == 0) {
+          new_col = i;
+          Location location(i, 1);
+          alien_wave.FillWave(Alien(location));
+      }
+  }
+
+
 }
 }

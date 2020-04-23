@@ -11,9 +11,12 @@ class Engine {
  public:
   AlienWave GetAlienWave() const;
   //Engine(int width, int height);
+
   void Step();
  private:
   AlienWave alien_wave;
+  int height = 16;
+  int width = 16;
 
 };
 }
