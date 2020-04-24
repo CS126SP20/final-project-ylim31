@@ -17,6 +17,7 @@ namespace space_invader {
     std::deque<Alien>::iterator begin();
     std::deque<Alien>::iterator end();
     Alien Tail() const;
+    void AlienWave::ClearWave();
    private:
     std::deque<Alien> wave;
   };

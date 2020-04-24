@@ -11,7 +11,7 @@ class Engine {
  public:
   AlienWave GetAlienWave() const;
   //Engine(int width, int height);
-
+  Location Engine::MoveAlienWave(bool toRight);
   void Step();
  private:
   AlienWave alien_wave;

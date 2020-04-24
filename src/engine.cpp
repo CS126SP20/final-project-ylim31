@@ -22,7 +22,21 @@ void Engine::Step() {
           alien_wave.FillWave(Alien(location));
       }
   }
+  bool toRight = true;
 
+  for (Alien& alien : alien_wave) {
+    //alien_wave.ClearWave();
+    //alien.SetVisibility(0);
+    Location d_loc = MoveAlienWave(toRight);
+    Location new_alien_loc = (alien.GetLocation() + d_loc);
+    alien.SetLocation(new_alien_loc);
+  }
 
+}
+Location Engine::MoveAlienWave(bool toRight) {
+  if (toRight == true) {
+    return {+1, 0};
+  }
+  return {-1, 0};
 }
 }

@@ -19,7 +19,10 @@ class MyApp : public cinder::app::App {
  private:
   void DrawAlienWave() const;
   space_invader::Engine engine;
-  const size_t alien_size;
+  const size_t alien_size = 50;
+  const size_t speed = 1000;
+  std::chrono::time_point<std::chrono::system_clock> last_time;
+
 
 };
 

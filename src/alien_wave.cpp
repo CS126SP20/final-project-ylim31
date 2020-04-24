@@ -11,4 +11,9 @@ namespace space_invader {
 std::deque<Alien>::iterator AlienWave::begin() { return wave.begin(); }
 std::deque<Alien>::iterator AlienWave::end() { return wave.end(); }
 Alien AlienWave::Tail() const { return wave.back(); }
+void AlienWave::ClearWave() {
+    for (Alien& alien : wave) {
+      alien.SetVisibility(0);
+    }
+  }
 }
