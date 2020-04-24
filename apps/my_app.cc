@@ -35,18 +35,39 @@ void MyApp::update() {
 
 void MyApp::draw() {
   DrawAlienWave();
+  DrawPlayer();
 }
 
-void MyApp::keyDown(KeyEvent event) { }
+void MyApp::keyDown(KeyEvent event) {
+  switch (event.getCode()) {
+    case KeyEvent::KEY_LEFT: {
+      engine.SetDirection(space_invader::Direction::kLeft);
+      break;
+    }
+    case KeyEvent::KEY_RIGHT: {
+      engine.SetDirection(space_invader::Direction::kRight);
+      break;
+    }
+  }
+}
+void MyApp::DrawPlayer() const {
+  space_invader::Location loc = engine.GetPlayer().GetLocation();
+  cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
+                                  alien_size * loc.Col(),
+                                  alien_size * loc.Row() + alien_size,
+                                  alien_size * loc.Col() + alien_size));
+}
 
 void MyApp::DrawAlienWave() const{
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
     space_invader::Location loc = alien.GetLocation();
+    /*
     if (alien.IsVisibile()) {
 
     } else {
       cinder::gl::color(Color(0, 0, 0));
     }
+     */
     cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
                                     alien_size * loc.Col(),
                                     alien_size * loc.Row() + alien_size,

@@ -4,16 +4,26 @@
 
 #include "engine.h"
 #include "alien.h"
+#include "direction.h"
 
 namespace space_invader {
+Engine::Engine():
+player(Location(6,15)),
+direction_{Direction::kRight}{}
 AlienWave Engine::GetAlienWave() const {
   return alien_wave;
 }
+Player Engine::GetPlayer() const {
+  return player;
+}
 void Engine::Step() {
+  //Location player_location(4, 4);
+
   int new_row = 0;
   int new_col = 0;
   //Location location(1, 1);
  // alien_wave.FillWave(Alien(location));
+
 
   for (int i = 0; i < width - 5; i++) {
       if (i % 2 == 0) {
@@ -21,6 +31,8 @@ void Engine::Step() {
           Location location(i, 1);
           alien_wave.FillWave(Alien(location));
       }
+
+
   }
   bool toRight = true;
 
@@ -32,11 +44,30 @@ void Engine::Step() {
     alien.SetLocation(new_alien_loc);
   }
 
+  Location player_location = MovePlayer(direction_);
+  Location new_player_loc =
+      (player.GetLocation() + player_location);
+  player.SetLocation(new_player_loc);
+
+
+
 }
 Location Engine::MoveAlienWave(bool toRight) {
   if (toRight == true) {
     return {+1, 0};
   }
   return {-1, 0};
+}
+
+Location Engine::MovePlayer(const Direction direction) {
+  if (direction == Direction::kRight) {
+    return {+1, 0};
+  } else if (direction == Direction::kLeft) {
+    return {-1, 0};
+  }
+  return {0,0};
+}
+void Engine::SetDirection(const space_invader::Direction direction) {
+  direction_ = direction;
 }
 }
