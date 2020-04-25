@@ -20,22 +20,34 @@ MyApp::MyApp()
 
 void MyApp::setup() {
 
+
+
 }
 
 void MyApp::update() {
+
   const auto time = system_clock::now();
   if (time - last_time > std::chrono::milliseconds(speed)) {
     engine.Step();
     last_time = time;
-    engine.GetAlienWave().ClearWave();
   }
-
+  if (time - last_time_player > std::chrono::milliseconds(speed_player)) {
+    engine.PlayerStep();
+    last_time_player = time;
+  }
 
 }
 
 void MyApp::draw() {
+  cinder::gl::clear();
+
+
   DrawAlienWave();
+
+
   DrawPlayer();
+
+  //glclear
 }
 
 void MyApp::keyDown(KeyEvent event) {
@@ -46,6 +58,10 @@ void MyApp::keyDown(KeyEvent event) {
     }
     case KeyEvent::KEY_RIGHT: {
       engine.SetDirection(space_invader::Direction::kRight);
+      break;
+    }
+    case KeyEvent::KEY_DOWN: {
+      engine.SetDirection(space_invader::Direction::kDown);
       break;
     }
   }
@@ -59,6 +75,7 @@ void MyApp::DrawPlayer() const {
 }
 
 void MyApp::DrawAlienWave() const{
+
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
     space_invader::Location loc = alien.GetLocation();
     /*

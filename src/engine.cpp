@@ -9,12 +9,18 @@
 namespace space_invader {
 Engine::Engine():
 player(Location(6,15)),
-direction_{Direction::kRight}{}
+direction_{Direction::kDown}{}
 AlienWave Engine::GetAlienWave() const {
   return alien_wave;
 }
 Player Engine::GetPlayer() const {
   return player;
+}
+void Engine::PlayerStep() {
+  Location player_location = MovePlayer(direction_);
+  Location new_player_loc =
+      (player.GetLocation() + player_location) % Location(height, width);;
+  player.SetLocation(new_player_loc);
 }
 void Engine::Step() {
   //Location player_location(4, 4);
@@ -24,17 +30,21 @@ void Engine::Step() {
   //Location location(1, 1);
  // alien_wave.FillWave(Alien(location));
 
-
-  for (int i = 0; i < width - 5; i++) {
+    //magic number
+  if (isFirst == true) {
+    for (int i = 0; i < width - 5; i++) {
       if (i % 2 == 0) {
-          new_col = i;
-          Location location(i, 1);
-          alien_wave.FillWave(Alien(location));
+        new_col = i;
+        Location location(i, 1);
+        alien_wave.FillWave(Alien(location));
+
       }
-
-
+    }
+    isFirst = false;
   }
+
   bool toRight = true;
+
 
   for (Alien& alien : alien_wave) {
     //alien_wave.ClearWave();
@@ -43,11 +53,7 @@ void Engine::Step() {
     Location new_alien_loc = (alien.GetLocation() + d_loc);
     alien.SetLocation(new_alien_loc);
   }
-
-  Location player_location = MovePlayer(direction_);
-  Location new_player_loc =
-      (player.GetLocation() + player_location);
-  player.SetLocation(new_player_loc);
+ // if (count == )
 
 
 
@@ -64,6 +70,8 @@ Location Engine::MovePlayer(const Direction direction) {
     return {+1, 0};
   } else if (direction == Direction::kLeft) {
     return {-1, 0};
+  } else if (direction == Direction::kDown) {
+    return {0,0};
   }
   return {0,0};
 }

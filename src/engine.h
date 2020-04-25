@@ -18,6 +18,7 @@ class Engine {
   Location Engine::MoveAlienWave(bool toRight);
   Location Engine::MovePlayer(const Direction direction);
   void Step();
+  void PlayerStep();
 
   // Changes the direction of the player for the next time step.
   void SetDirection(Direction);
@@ -27,6 +28,8 @@ class Engine {
   int width = 16;
   Direction direction_;
   Player player;
+  bool isFirst = true;
+  int count = 0;
 
 };
 }
