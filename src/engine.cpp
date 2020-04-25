@@ -25,41 +25,40 @@ void Engine::PlayerStep() {
 void Engine::Step() {
   //Location player_location(4, 4);
 
-  int new_row = 0;
-  int new_col = 0;
-  //Location location(1, 1);
- // alien_wave.FillWave(Alien(location));
 
+  //Location location(1, 1);
+  //alien_wave.FillWave(Alien(location));
     //magic number
   if (isFirst == true) {
     for (int i = 0; i < width - 5; i++) {
       if (i % 2 == 0) {
-        new_col = i;
-        Location location(i, 1);
-        alien_wave.FillWave(Alien(location));
 
+        Location location(i, 0);
+        alien_wave.FillWave(Alien(location));
       }
     }
     isFirst = false;
   }
 
-  bool toRight = true;
-
-
-  for (Alien& alien : alien_wave) {
-    //alien_wave.ClearWave();
-    //alien.SetVisibility(0);
-    Location d_loc = MoveAlienWave(toRight);
-    Location new_alien_loc = (alien.GetLocation() + d_loc);
-    alien.SetLocation(new_alien_loc);
+ for (Alien& alien : alien_wave) {
+   //alien_wave.ClearWave();
+   //alien.SetVisibility(0);
+   Location d_loc = MoveAlienWave(toRight, count);
+   Location new_alien_loc = (alien.GetLocation() + d_loc);
+   alien.SetLocation(new_alien_loc);
+ }
+  count++;
+  if (count == 6) {
+    toRight = !toRight;
+    count = 0;
   }
- // if (count == )
-
-
-
 }
-Location Engine::MoveAlienWave(bool toRight) {
-  if (toRight == true) {
+Location Engine::MoveAlienWave(bool toRight, int count) {
+  if (toRight == false && count == 0) {
+    return {0, +1};
+  } else if (toRight == true && count == 0) {
+    return {0, +1};
+  } else if (toRight == true) {
     return {+1, 0};
   }
   return {-1, 0};

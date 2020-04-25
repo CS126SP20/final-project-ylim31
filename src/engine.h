@@ -15,7 +15,7 @@ class Engine {
   AlienWave GetAlienWave() const;
   Player Engine::GetPlayer() const;
   //Engine(int width, int height);
-  Location Engine::MoveAlienWave(bool toRight);
+  Location Engine::MoveAlienWave(bool toRight, int count);
   Location Engine::MovePlayer(const Direction direction);
   void Step();
   void PlayerStep();
@@ -30,6 +30,7 @@ class Engine {
   Player player;
   bool isFirst = true;
   int count = 0;
+  bool toRight = true;
 
 };
 }
