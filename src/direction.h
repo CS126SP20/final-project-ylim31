@@ -6,7 +6,9 @@
 #define FINALPROJECT_DIRECTION_H
 
 namespace space_invader {
-enum class Direction {kLeft, kRight, kDown};
+//kshoot
+
+enum class Direction {kLeft, kRight, kStop, kShoot, kReload};
 }
 
 

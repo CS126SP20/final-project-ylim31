@@ -19,13 +19,10 @@ MyApp::MyApp()
 : alien_size(50){ }
 
 void MyApp::setup() {
-
-
-
+  //printf("first");
 }
 
 void MyApp::update() {
-
   const auto time = system_clock::now();
   if (time - last_time > std::chrono::milliseconds(speed)) {
     engine.Step();
@@ -33,20 +30,27 @@ void MyApp::update() {
   }
   if (time - last_time_player > std::chrono::milliseconds(speed_player)) {
     engine.PlayerStep();
+    std::cout<< "hi" << std::endl;
+    engine.ProjectileStep();
     last_time_player = time;
   }
+
+
+  //std::cout << "first" << std::endl;
+
 
 }
 
 void MyApp::draw() {
   cinder::gl::clear();
-
-
   DrawAlienWave();
-
-
   DrawPlayer();
-
+  //DrawProjectile();
+ // if (isSpace) {
+    DrawProjectile();
+    //DrawAnother();
+    // = !isSpace;
+ // }
   //glclear
 }
 
@@ -60,12 +64,56 @@ void MyApp::keyDown(KeyEvent event) {
       engine.SetDirection(space_invader::Direction::kRight);
       break;
     }
-    case KeyEvent::KEY_DOWN: {
-      engine.SetDirection(space_invader::Direction::kDown);
+    case KeyEvent::KEY_SPACE: {
+      //isSpace = true;
+      //isFired = true;
+      //engine.SetIsFired(isFired);
+      //std::cout << "first" << std::endl;
+      engine.SetProjectileDirection(space_invader::Direction::kShoot);
       break;
     }
   }
 }
+void MyApp::keyUp(KeyEvent event) {
+  switch (event.getCode()) {
+    case KeyEvent::KEY_LEFT: {
+      engine.SetDirection(space_invader::Direction::kStop);
+      break;
+    }
+    case KeyEvent::KEY_RIGHT: {
+      engine.SetDirection(space_invader::Direction::kStop);
+      break;
+    }
+
+    case KeyEvent::KEY_SPACE: {
+      engine.SetProjectileDirection(space_invader::Direction::kShoot);
+      break;
+    }
+
+  }
+}
+void MyApp::DrawProjectile() const {
+
+  //for (auto projectile : engine.GetVectorProjectile()) {
+    space_invader::Location loc = engine.GetProjectile()->GetLocation();
+    cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
+                                    alien_size * loc.Col(),
+                                    alien_size * loc.Row() + alien_size,
+                                    alien_size * loc.Col() + alien_size));
+  //}
+
+
+
+}
+/*
+void MyApp::DrawAnother() const {
+  space_invader::Location locs = engine.GetCopyProjectile().GetLocation();
+  cinder::gl::drawSolidRect(Rectf(alien_size * locs.Row(),
+                                  alien_size * locs.Col(),
+                                  alien_size * locs.Row() + alien_size,
+                                  alien_size * locs.Col() + alien_size));
+}
+ */
 void MyApp::DrawPlayer() const {
   space_invader::Location loc = engine.GetPlayer().GetLocation();
   cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
@@ -75,7 +123,6 @@ void MyApp::DrawPlayer() const {
 }
 
 void MyApp::DrawAlienWave() const{
-
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
     space_invader::Location loc = alien.GetLocation();
     /*
