@@ -5,7 +5,7 @@
 #include "alien_wave.h"
 namespace space_invader {
 
-  void AlienWave::FillWave(const space_invader::Alien& alien) {
+  void AlienWave::FillWave(const space_invader::Alien alien) {
     wave.push_back(alien);
   }
 std::deque<Alien>::iterator AlienWave::begin() { return wave.begin(); }

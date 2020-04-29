@@ -25,6 +25,7 @@ class MyApp : public cinder::app::App {
   //void MyApp::DrawAnother() const;
   space_invader::Engine engine;
   const size_t alien_size = 50;
+  const size_t projectile_size = 30;
   const size_t speed = 1000;
   const size_t speed_player = 80;
   std::chrono::time_point<std::chrono::system_clock> last_time;

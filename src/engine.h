@@ -23,14 +23,12 @@ class Engine {
   Location Engine::MoveAlienWave(bool toRight, int count);
   Location Engine::MovePlayer(const Direction direction);
   Location Engine::MoveProjectile();
-  void Engine::ReloadProjectile();
 
 
 
   void Step();
   void PlayerStep();
   void ProjectileStep();
-
 
 
   // Changes the direction of the player for the next time step.
@@ -50,12 +48,8 @@ class Engine {
   bool isFirst = true;
   int count = 0;
   int projectile_distance = 0;
-  int first_shot = 0;
   bool toRight = true;
 
-  Projectile copy_projectile;
-
-  bool isShot = false;
 
 };
 }

@@ -13,7 +13,7 @@ namespace space_invader {
    public:
     //AlienWave();
     //add alien to the wave
-    void FillWave(const Alien&);
+    void FillWave(const Alien);
     std::deque<Alien>::iterator begin();
     std::deque<Alien>::iterator end();
     Alien Tail() const;

@@ -30,7 +30,7 @@ void MyApp::update() {
   }
   if (time - last_time_player > std::chrono::milliseconds(speed_player)) {
     engine.PlayerStep();
-    std::cout<< "hi" << std::endl;
+
     engine.ProjectileStep();
     last_time_player = time;
   }

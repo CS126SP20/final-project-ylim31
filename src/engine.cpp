@@ -15,8 +15,7 @@ namespace space_invader {
 Engine::Engine():
 player(Location(6,15)),
 direction_{Direction::kStop},
-direction_projectile{Direction::kStop},
-copy_projectile{player.GetLocation()} {
+direction_projectile{Direction::kStop} {
   projectile = new Projectile(player.GetLocation());
 }
 AlienWave Engine::GetAlienWave() const {
@@ -47,6 +46,17 @@ void Engine::ProjectileStep() {
         (projectile->GetLocation() + projectile_location);
     projectile->SetLocation(new_projectile_loc);
     projectile_distance++;
+    for (Alien& alien : alien_wave) {
+      if (alien.GetLocation() == projectile->GetLocation()) {
+        delete projectile;
+
+        //delete alien;
+        Projectile* new_projectile = new Projectile(player.GetLocation());
+        projectile = new_projectile;
+        direction_projectile = Direction::kReload;
+        projectile_distance = 0;
+      }
+    }
     if (projectile_distance == 16) {
       delete projectile;
       Projectile* new_projectile = new Projectile(player.GetLocation());
