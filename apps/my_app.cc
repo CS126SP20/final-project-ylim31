@@ -96,11 +96,21 @@ void MyApp::keyUp(KeyEvent event) {
 }
 void MyApp::DrawProjectile() const {
   //for (auto projectile : engine.GetVectorProjectile()) {
+  if (engine.GetPlayer().IsVisibile() == false) {
+    return;
+  }
     space_invader::Location loc = engine.GetProjectile()->GetLocation();
     cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row() + projectile_size,
                                     alien_size * loc.Col(),
                                     alien_size * loc.Row() + alien_size - projectile_size,
                                     alien_size * loc.Col() + alien_size - (2 * projectile_size)));
+
+    space_invader::Location alien_loc = engine.GetAlienProjectile()->GetLocation();
+    cinder::gl::drawSolidRect(Rectf(alien_size * alien_loc.Row() + projectile_size,
+                                  alien_size * alien_loc.Col() + (2 * projectile_size),
+                                  alien_size * alien_loc.Row() + alien_size - projectile_size,
+                                  alien_size * alien_loc.Col() + alien_size));
+
 
   //}
 
@@ -117,6 +127,9 @@ void MyApp::DrawAnother() const {
 }
  */
 void MyApp::DrawPlayer() const {
+  if (engine.GetPlayer().IsVisibile() == false) {
+    return;
+  }
   space_invader::Location loc = engine.GetPlayer().GetLocation();
   cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
                                   alien_size * loc.Col(),

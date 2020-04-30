@@ -10,7 +10,8 @@ void AlienWave::FillWave(const space_invader::Alien& alien) {
   wave.push_back(alien);
 
 }
-Alien AlienWave::GetAlien(int n) {
+Alien AlienWave::GetAlien(int row, int col) {
+  int n = (row * 6) + col;
   return wave.at(n);
 }
 std::deque<Alien>::iterator AlienWave::begin() { return wave.begin(); }

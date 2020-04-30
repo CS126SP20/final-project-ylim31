@@ -14,7 +14,7 @@ namespace space_invader {
     //AlienWave();
     //add alien to the wave
     void AlienWave::FillWave(const space_invader::Alien& alien);
-    Alien GetAlien(int n);
+    Alien AlienWave::GetAlien(int row, int col);
     std::deque<Alien>::iterator begin();
     std::deque<Alien>::iterator end();
 

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <random>
 
 #include "alien.h"
 #include "direction.h"
@@ -15,9 +16,12 @@ namespace space_invader {
 Engine::Engine():
 player(Location(6,15)),
 direction_{Direction::kStop},
-direction_projectile{Direction::kStop} {
+direction_projectile{Direction::kStop},
+direction_alien_projectile{Direction::kShoot}{
   //aliens = new Alien(alien_wave.Head().GetLocation());
   projectile = new Projectile(player.GetLocation());
+
+
 
 }
 
@@ -30,6 +34,9 @@ Player Engine::GetPlayer() const {
 }
 Projectile* Engine::GetProjectile() const {
   return projectile;
+}
+Projectile* Engine::GetAlienProjectile() const {
+  return alien_projectile;
 }
 
 void Engine::PlayerStep() {
@@ -54,24 +61,7 @@ void Engine::ProjectileStep() {
     for (Alien& alien : alien_wave) {
       if (alien.GetLocation() == projectile->GetLocation() && alien.IsVisibile()) {
         delete projectile;
-        //delete *alien;
-
-        //delete aliens;
         alien.SetVisibility(false);
-
-
-       // delete aliens;
-       // delete alien;
-
-
-        //alien.SetVisibility(0);
-        //delete aliens;
-        //Alien* new_alien = new Alien(alien.GetLocation());
-        //alien = new_alien;
-
-        //Alien* new_alien = new Alien(Location(0,0));
-        //aliens = new_alien;
-
         Projectile* new_projectile = new Projectile(player.GetLocation());
         projectile = new_projectile;
         direction_projectile = Direction::kReload;
@@ -88,7 +78,61 @@ void Engine::ProjectileStep() {
   }
 
 
+  Location projectile_location = MoveAlienProjectile();
+  Location new_projectile_loc =
+      (alien_projectile->GetLocation() + projectile_location);
+  alien_projectile->SetLocation(new_projectile_loc);
 
+  alien_projectile_distance++;
+
+
+
+
+  if (alien_projectile_distance == 16) {
+    int random_int = std::rand()%6;
+    int shoot_row = 2;
+    //delete alien_projectile;
+    for (int i = 0; i < 3; i++) {
+      if (alien_wave.GetAlien(shoot_row, random_int).IsVisibile() == false) {
+        shoot_row--;
+
+      }
+    }
+    alien_projectile_distance = 12;
+    if (shoot_row != -1) {
+      delete alien_projectile;
+      Projectile* new_alien_projectile = new Projectile(alien_wave.GetAlien(shoot_row, random_int).GetLocation());
+      alien_projectile = new_alien_projectile;
+      alien_projectile_distance = 0;
+    }
+
+
+    //direction_alien_projectile = Direction::kReload;
+
+
+  }
+  /*
+
+  if (alien_projectile->GetLocation() == player.GetLocation()) {
+    //delete alien_projectile;
+    player.SetVisibility(false);
+    //direction_alien_projectile = Direction::kReload;
+  }
+   */
+  /*
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 6; j++) {
+
+      //Location location(j * 2, i * 2);
+      //aliens = new Alien(location);
+
+      if (i == 2 && j == random_position) {
+
+      }
+    }
+
+  }
+   */
 
 }
 
@@ -108,8 +152,12 @@ void Engine::Step() {
       }
 
     }
+
+
+    alien_projectile = new Projectile(alien_wave.GetAlien(2, 1).GetLocation());
     isFirst = false;
   }
+
  for (Alien& alien : alien_wave) {
    //alien_wave.ClearWave();
    //alien.SetVisibility(0);
@@ -141,6 +189,9 @@ Location Engine::MoveProjectile() {
   return {0, 0};
 }
 
+Location Engine::MoveAlienProjectile() {
+    return {0, +1};
+}
 
 
 
