@@ -15,7 +15,7 @@ class Alien {
   Location SetLocation(const Location&);
   void SetVisibility(bool visible);
   bool IsVisibile() const;
-
+  void Clear();
   constexpr static float WIDTH = 48;
   constexpr static float HEIGHT = 32;
  private:

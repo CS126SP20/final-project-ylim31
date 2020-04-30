@@ -30,6 +30,7 @@ class Location {
   Location& operator+=(const Location& rhs);
   Location operator-() const;
 
+
   // Accessors.
   int Row() const;
   int Col() const;

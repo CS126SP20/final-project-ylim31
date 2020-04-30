@@ -13,13 +13,20 @@ namespace space_invader {
    public:
     //AlienWave();
     //add alien to the wave
-    void FillWave(const Alien);
+    void AlienWave::FillWave(const space_invader::Alien& alien);
+    Alien GetAlien(int n);
     std::deque<Alien>::iterator begin();
     std::deque<Alien>::iterator end();
-    Alien Tail() const;
+
+
+
+
+    Alien* Tail() const;
+    Alien* Head() const;
     void AlienWave::ClearWave();
    private:
     std::deque<Alien> wave;
+    Alien* aliens;
   };
 }
 

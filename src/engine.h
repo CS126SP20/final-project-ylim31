@@ -39,16 +39,22 @@ class Engine {
 
  private:
   AlienWave alien_wave;
+  AlienWave alien_wave_second;
+  AlienWave alien_wave_third;
   int height = 16;
   int width = 16;
   Direction direction_;
   Direction direction_projectile;
   Player player;
   Projectile* projectile;
+  Projectile* alien_projectile;
   bool isFirst = true;
   int count = 0;
   int projectile_distance = 0;
   bool toRight = true;
+  //Alien* aliens;
+
+  Alien* aliens;
 
 
 };

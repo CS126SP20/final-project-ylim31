@@ -16,8 +16,12 @@ Engine::Engine():
 player(Location(6,15)),
 direction_{Direction::kStop},
 direction_projectile{Direction::kStop} {
+  //aliens = new Alien(alien_wave.Head().GetLocation());
   projectile = new Projectile(player.GetLocation());
+
 }
+
+
 AlienWave Engine::GetAlienWave() const {
   return alien_wave;
 }
@@ -34,7 +38,8 @@ void Engine::PlayerStep() {
       (player.GetLocation() + player_location) % Location(height, width);
   player.SetLocation(new_player_loc);
   if (direction_projectile != Direction::kShoot) {
-    projectile->SetLocation(player.GetLocation());
+    Location scaled(player.GetLocation().Row(), player.GetLocation().Col());
+    projectile->SetLocation(scaled);
   }
 }
 
@@ -47,10 +52,26 @@ void Engine::ProjectileStep() {
     projectile->SetLocation(new_projectile_loc);
     projectile_distance++;
     for (Alien& alien : alien_wave) {
-      if (alien.GetLocation() == projectile->GetLocation()) {
+      if (alien.GetLocation() == projectile->GetLocation() && alien.IsVisibile()) {
         delete projectile;
+        //delete *alien;
 
-        //delete alien;
+        //delete aliens;
+        alien.SetVisibility(false);
+
+
+       // delete aliens;
+       // delete alien;
+
+
+        //alien.SetVisibility(0);
+        //delete aliens;
+        //Alien* new_alien = new Alien(alien.GetLocation());
+        //alien = new_alien;
+
+        //Alien* new_alien = new Alien(Location(0,0));
+        //aliens = new_alien;
+
         Projectile* new_projectile = new Projectile(player.GetLocation());
         projectile = new_projectile;
         direction_projectile = Direction::kReload;
@@ -66,6 +87,9 @@ void Engine::ProjectileStep() {
     }
   }
 
+
+
+
 }
 
 void Engine::Step() {
@@ -74,11 +98,15 @@ void Engine::Step() {
   //alien_wave.FillWave(Alien(location));
     //magic number
   if (isFirst == true) {
-    for (int i = 0; i < width - 5; i++) {
-      if (i % 2 == 0) {
-        Location location(i, 0);
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 6; j++) {
+
+        Location location(j * 2, i * 2);
+        //aliens = new Alien(location);
         alien_wave.FillWave(Alien(location));
+
       }
+
     }
     isFirst = false;
   }

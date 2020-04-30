@@ -51,6 +51,7 @@ Location& Location::operator+=(const Location& rhs) {
   return *this;
 }
 
+
 int mod(int a, int b) {
   int c = a % b;
   return c + (c < 0 ? b : 0);

@@ -30,9 +30,11 @@ void MyApp::update() {
   }
   if (time - last_time_player > std::chrono::milliseconds(speed_player)) {
     engine.PlayerStep();
-
-    engine.ProjectileStep();
     last_time_player = time;
+  }
+  if (time - last_time_projectile > std::chrono::milliseconds(speed_projectile)) {
+    engine.ProjectileStep();
+    last_time_projectile = time;
   }
 
 
@@ -93,13 +95,13 @@ void MyApp::keyUp(KeyEvent event) {
   }
 }
 void MyApp::DrawProjectile() const {
-
   //for (auto projectile : engine.GetVectorProjectile()) {
     space_invader::Location loc = engine.GetProjectile()->GetLocation();
-    cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
+    cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row() + projectile_size,
                                     alien_size * loc.Col(),
-                                    alien_size * loc.Row() + alien_size,
-                                    alien_size * loc.Col() + alien_size));
+                                    alien_size * loc.Row() + alien_size - projectile_size,
+                                    alien_size * loc.Col() + alien_size - (2 * projectile_size)));
+
   //}
 
 
@@ -124,6 +126,9 @@ void MyApp::DrawPlayer() const {
 
 void MyApp::DrawAlienWave() const{
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
+    if (alien.IsVisibile() == false) {
+      continue;
+    }
     space_invader::Location loc = alien.GetLocation();
     /*
     if (alien.IsVisibile()) {

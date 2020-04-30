@@ -21,5 +21,11 @@ void Alien::SetVisibility(bool visible) { visible_ = visible; }
 
 bool Alien::IsVisibile() const { return visible_; }
 
+void Alien::Clear() {
+  delete this;
+}
+
+
+
 
 }
