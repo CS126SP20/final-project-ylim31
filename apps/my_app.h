@@ -54,6 +54,9 @@ class MyApp : public cinder::app::App {
   //cinder::JsonTree json;
   std::vector<po::SpritesheetAnimationRef> alien_vector;
   std::vector<ci::Anim<cinder::vec2>> mPos_vector;
+  std::vector<ci::Anim<cinder::vec2>> mEndPos_vector;
+  int index = 0;
+  int i = 0;
 
 
 };

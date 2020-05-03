@@ -27,7 +27,7 @@ MyApp::MyApp()
 void MyApp::setup() {
   engine.SetUpWave();
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
-    std::cout<<"hi"<<std::endl;
+
 
     ci::gl::TextureRef texture = ci::gl::Texture::create(loadImage(loadAsset("alien.png")));
     cinder::JsonTree json = cinder::JsonTree(loadAsset("alien.json"));
@@ -35,17 +35,20 @@ void MyApp::setup() {
     po::SpritesheetAnimationRef mSpritesheetAnimation = po::SpritesheetAnimation::create(mSpritesheet);
     alien_vector.push_back(mSpritesheetAnimation);
 
-    space_invader::Location loc = alien.GetLocation();
-    int x = loc.Row();
-    int y = loc.Col();
-    mPos = ci::vec2(x * 50, y * 50);
-    mEndPos = ci::vec2(x+50, y);
+
 
     mPos_vector.push_back(mPos);
-    mSpritesheetAnimation->play();
+    mEndPos_vector.push_back(mEndPos);
+
+
+
+
+
+      mSpritesheetAnimation->play();
     mSpritesheetAnimation->setIsLoopingEnabled(true);
     mSpritesheetAnimation->setFrameRate(8);
     //timeline().apply(&mPos, mEndPos, 10.0f).loop();
+
   }
   /*
     space_invader::Location loc = alien.GetLocation();
@@ -108,6 +111,7 @@ void MyApp::update() {
   //std::cout<<engine.GetAlienWave().getSize()<<std::endl;
   for (po::SpritesheetAnimationRef a : alien_vector) {
       a->update();
+
   }
 
 }
@@ -119,22 +123,32 @@ void MyApp::draw() {
   DrawProjectile();
 
 
-  int i = 0;
+  //int i = 0;
 
   for (po::SpritesheetAnimationRef a : alien_vector) {
 
     //space_invader::Location loc = engine.GetAlienWave().GetAlienth(i).GetLocation();
+      space_invader::Location loc = engine.GetAlienWave().GetAlienth(index).GetLocation();
+
+
+      int x = loc.Row();
+      int y = loc.Col();
+      mPos = ci::vec2(x * 50, y * 50);
+      mEndPos = ci::vec2(x+50, y);
 
 
     ci::gl::pushModelView();
 
-    ci::vec2 val = mPos_vector.at(i).value();
-    i++;
+    ci::vec2 val = mPos.value();
+    index++;
 
     ci::gl::translate(val.x, val.y);
     a->draw();
 
     ci::gl::popModelView();
+    if (index == alien_vector.size()) {
+        index = 0;
+    }
 
   }
 
