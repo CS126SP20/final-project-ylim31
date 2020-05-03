@@ -15,5 +15,8 @@
                 button, the projectile disappears/resets. How do I fix this?
    - Go to office hour.
    - Also fixed the error where the player and alien wave leaves its own object behind.
- - **4/28/20** Create pointer projectile. Now I can delete the projectile and prevent memory leaks                             
+ - **4/28/20** Create pointer projectile. Now I can delete the projectile and prevent memory leaks   
+ - **4/29/20** Resize the projectile to be smaller.
+   - Alien can shoot projectile.
+   - Now work on the graphic. Find a sprite library.                        
 ---

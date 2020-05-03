@@ -26,23 +26,17 @@ class Engine {
   Location Engine::MoveProjectile();
   Location Engine::MoveAlienProjectile();
 
-
   void Step();
   void PlayerStep();
   void ProjectileStep();
-
+  void Engine::SetUpWave();
 
   // Changes the direction of the player for the next time step.
   void SetDirection(Direction);
   void Engine::SetProjectileDirection(const space_invader::Direction direction);
 
-
-
-
  private:
   AlienWave alien_wave;
-  AlienWave alien_wave_second;
-  AlienWave alien_wave_third;
   int height = 16;
   int width = 16;
   Direction direction_;

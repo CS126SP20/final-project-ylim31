@@ -18,10 +18,7 @@ player(Location(6,15)),
 direction_{Direction::kStop},
 direction_projectile{Direction::kStop},
 direction_alien_projectile{Direction::kShoot}{
-  //aliens = new Alien(alien_wave.Head().GetLocation());
   projectile = new Projectile(player.GetLocation());
-
-
 
 }
 
@@ -50,7 +47,7 @@ void Engine::PlayerStep() {
   }
 }
 
-//shoot method that sets the prokectile location. when space bar is press, call in myapp
+
 void Engine::ProjectileStep() {
   if (direction_projectile == Direction::kShoot) {
     Location projectile_location = MoveProjectile();
@@ -77,17 +74,11 @@ void Engine::ProjectileStep() {
     }
   }
 
-
   Location projectile_location = MoveAlienProjectile();
   Location new_projectile_loc =
       (alien_projectile->GetLocation() + projectile_location);
   alien_projectile->SetLocation(new_projectile_loc);
-
   alien_projectile_distance++;
-
-
-
-
   if (alien_projectile_distance == 16) {
     int random_int = std::rand()%6;
     int shoot_row = 2;
@@ -105,62 +96,24 @@ void Engine::ProjectileStep() {
       alien_projectile = new_alien_projectile;
       alien_projectile_distance = 0;
     }
-
-
-    //direction_alien_projectile = Direction::kReload;
-
-
   }
-  /*
-
-  if (alien_projectile->GetLocation() == player.GetLocation()) {
-    //delete alien_projectile;
-    player.SetVisibility(false);
-    //direction_alien_projectile = Direction::kReload;
-  }
-   */
-  /*
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 6; j++) {
-
-      //Location location(j * 2, i * 2);
-      //aliens = new Alien(location);
-
-      if (i == 2 && j == random_position) {
-
-      }
-    }
-
-  }
-   */
-
 }
+void Engine::SetUpWave() {
 
-void Engine::Step() {
-  //Location player_location(4, 4);
-  //Location location(1, 1);
-  //alien_wave.FillWave(Alien(location));
-    //magic number
-  if (isFirst == true) {
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 6; j++) {
-
         Location location(j * 2, i * 2);
-        //aliens = new Alien(location);
         alien_wave.FillWave(Alien(location));
-
       }
-
     }
-
-
     alien_projectile = new Projectile(alien_wave.GetAlien(2, 1).GetLocation());
-    isFirst = false;
+
   }
 
+void Engine::Step() {
+    //magic number
+
  for (Alien& alien : alien_wave) {
-   //alien_wave.ClearWave();
-   //alien.SetVisibility(0);
    Location d_loc = MoveAlienWave(toRight, count);
    Location new_alien_loc = (alien.GetLocation() + d_loc);
    alien.SetLocation(new_alien_loc);
@@ -192,8 +145,6 @@ Location Engine::MoveProjectile() {
 Location Engine::MoveAlienProjectile() {
     return {0, +1};
 }
-
-
 
 Location Engine::MovePlayer(const Direction direction) {
   if (direction == Direction::kRight) {

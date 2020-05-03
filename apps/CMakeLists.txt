@@ -13,7 +13,8 @@ ci_make_app(
     CINDER_PATH ${CINDER_PATH}
     SOURCES     ${SOURCE_LIST}
     LIBRARIES   mylibrary
-    BLOCKS      Cinder-WMFVideo
+    BLOCKS      Cinder-WMFVideo Cinder-poScene Cinder-poSpritesheet
+
 )
 
 target_compile_features(cinder-myapp PRIVATE cxx_std_14)

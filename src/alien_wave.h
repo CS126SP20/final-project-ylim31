@@ -11,15 +11,12 @@ namespace space_invader {
   class AlienWave {
 
    public:
-    //AlienWave();
-    //add alien to the wave
     void AlienWave::FillWave(const space_invader::Alien& alien);
     Alien AlienWave::GetAlien(int row, int col);
     std::deque<Alien>::iterator begin();
     std::deque<Alien>::iterator end();
-
-
-
+    Alien AlienWave::GetAlienth(int index);
+    int AlienWave::getSize();
 
     Alien* Tail() const;
     Alien* Head() const;
