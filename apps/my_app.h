@@ -30,6 +30,7 @@ class MyApp : public cinder::app::App {
   void DrawAlienWave();
   void DrawPlayer() const;
   void DrawProjectile();
+  void DrawAlienProjectile();
   space_invader::Engine engine;
   const size_t alien_size = 50;
   const size_t projectile_size = 50/3;
@@ -61,6 +62,12 @@ class MyApp : public cinder::app::App {
 
   po::SpritesheetRef mSpritesheet_bullet;
   po::SpritesheetAnimationRef mSpritesheetAnimation_bullet;
+
+
+  ci::Anim<cinder::vec2> alien_bullet_mPos;
+  cinder::vec2 alien_bullet_mEndPos;
+  po::SpritesheetRef mSpritesheet_alien_bullet;
+  po::SpritesheetAnimationRef mSpritesheetAnimation_alien_bullet;
 
 
 };

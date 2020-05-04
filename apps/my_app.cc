@@ -46,13 +46,21 @@ void MyApp::setup() {
     mSpritesheetAnimation->setFrameRate(4);
   }
 
-  ci::gl::TextureRef texture = ci::gl::Texture::create(loadImage(loadAsset("bullet.png")));
-  cinder::JsonTree json = cinder::JsonTree(loadAsset("bullet.json"));
-  mSpritesheet_bullet = po::Spritesheet::create(texture, json);
+  ci::gl::TextureRef texture_bullet = ci::gl::Texture::create(loadImage(loadAsset("playerbullet.png")));
+  cinder::JsonTree json_bullet = cinder::JsonTree(loadAsset("playerbullet.json"));
+  mSpritesheet_bullet = po::Spritesheet::create(texture_bullet, json_bullet);
   mSpritesheetAnimation_bullet = po::SpritesheetAnimation::create(mSpritesheet_bullet);
   mSpritesheetAnimation_bullet->play();
   mSpritesheetAnimation_bullet->setIsLoopingEnabled(true);
   mSpritesheetAnimation_bullet->setFrameRate(10);
+
+  ci::gl::TextureRef texture_alien_bullet = ci::gl::Texture::create(loadImage(loadAsset("alienbullet.png")));
+  cinder::JsonTree json_alien_bullet = cinder::JsonTree(loadAsset("alienbullet.json"));
+  mSpritesheet_alien_bullet = po::Spritesheet::create(texture_alien_bullet, json_alien_bullet);
+  mSpritesheetAnimation_alien_bullet = po::SpritesheetAnimation::create(mSpritesheet_alien_bullet);
+  mSpritesheetAnimation_alien_bullet->play();
+  mSpritesheetAnimation_alien_bullet->setIsLoopingEnabled(true);
+  mSpritesheetAnimation_alien_bullet->setFrameRate(10);
 }
 
 void MyApp::update() {
@@ -76,6 +84,7 @@ void MyApp::update() {
     a->update();
   }
   mSpritesheetAnimation_bullet->update();
+  mSpritesheetAnimation_alien_bullet->update();
 
 }
 
@@ -87,6 +96,7 @@ void MyApp::draw() {
   DrawPlayer();
   DrawProjectile();
   DrawAlienWave();
+  DrawAlienProjectile();
 
 
 }
@@ -126,6 +136,25 @@ void MyApp::keyUp(KeyEvent event) {
     }
 
   }
+}
+void MyApp::DrawAlienProjectile() {
+
+  space_invader::Location loc = engine.GetAlienProjectile()->GetLocation();
+  int x = loc.Row();
+  int y = loc.Col();
+
+  alien_bullet_mPos = ci::vec2((x * 50) +50/3, y * 50);
+  alien_bullet_mEndPos = ci::vec2(x, y - 50);
+  ci::gl::pushModelView();
+
+  ci::vec2 val = alien_bullet_mPos.value();
+
+  ci::gl::translate(val.x, val.y);
+
+
+  mSpritesheetAnimation_alien_bullet -> draw();
+  ci::gl::popModelView();
+
 }
 void MyApp::DrawProjectile() {
   if (engine.GetProjectile()->IsVisibile() == false) {
