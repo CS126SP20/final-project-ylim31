@@ -6,7 +6,7 @@
 
 namespace space_invader {
 Projectile::Projectile(const Location& location)
-    : location_(location), visible_{true} {}
+    : location_(location), visible_{false} {}
 
 
 Location Projectile::GetLocation() const { return location_; }

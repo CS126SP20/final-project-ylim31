@@ -25,73 +25,39 @@ MyApp::MyApp()
 : alien_size(50){ }
 
 void MyApp::setup() {
+  std::string videoPath = getAssetPath( "space.mp4" ).string();
+  mVideo1.loadMovie( videoPath, "Headphones (High Definition Audio Device)" );
+  mVideo1.play();
+  mVideo1.setLoop(true);
+
+  mParams = ci::params::InterfaceGl::create( "Params", ci::ivec2( 0, 0 ) );
+  mParams->addParam<float>( "FPS", &mFps, true );
+
   engine.SetUpWave();
   for (const space_invader::Alien& alien : engine.GetAlienWave()) {
-
-
     ci::gl::TextureRef texture = ci::gl::Texture::create(loadImage(loadAsset("alien.png")));
     cinder::JsonTree json = cinder::JsonTree(loadAsset("alien.json"));
     po::SpritesheetRef mSpritesheet = po::Spritesheet::create(texture, json);
     po::SpritesheetAnimationRef mSpritesheetAnimation = po::SpritesheetAnimation::create(mSpritesheet);
     alien_vector.push_back(mSpritesheetAnimation);
 
-
-
-    mPos_vector.push_back(mPos);
-    mEndPos_vector.push_back(mEndPos);
-
-
-
-
-
-      mSpritesheetAnimation->play();
+    mSpritesheetAnimation->play();
     mSpritesheetAnimation->setIsLoopingEnabled(true);
-    mSpritesheetAnimation->setFrameRate(8);
-    //timeline().apply(&mPos, mEndPos, 10.0f).loop();
-
+    mSpritesheetAnimation->setFrameRate(4);
   }
-  /*
-    space_invader::Location loc = alien.GetLocation();
-    int x = loc.Row();
-    int y = loc.Col();
-    */
 
-
-  std::cout<<alien_vector.size()<<std::endl;
-
-
-
-    //mSpritesheetAnimation->setIsLoopingEnabled(true);
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  ci::gl::TextureRef texture = ci::gl::Texture::create(loadImage(loadAsset("alien.png")));
-  cinder::JsonTree json = cinder::JsonTree(loadAsset("alien.json"));
-  mSpritesheet = po::Spritesheet::create(texture, json);
-
-  std::cout<<mSpritesheet->getOriginalBounds().x1 << std::endl;
-  std::cout<<mSpritesheet->getOriginalBounds().x2 << std::endl;
-  std::cout<<mSpritesheet->getOriginalBounds().y1 << std::endl;
-  std::cout<<mSpritesheet->getOriginalBounds().y2 << std::endl;
-
-  mSpritesheetAnimation = po::SpritesheetAnimation::create(mSpritesheet);
-  mSpritesheetAnimation->setIsLoopingEnabled(true);
-  mSpritesheetAnimation->play();
-   */
-
-
+  ci::gl::TextureRef texture = ci::gl::Texture::create(loadImage(loadAsset("bullet.png")));
+  cinder::JsonTree json = cinder::JsonTree(loadAsset("bullet.json"));
+  mSpritesheet_bullet = po::Spritesheet::create(texture, json);
+  mSpritesheetAnimation_bullet = po::SpritesheetAnimation::create(mSpritesheet_bullet);
+  mSpritesheetAnimation_bullet->play();
+  mSpritesheetAnimation_bullet->setIsLoopingEnabled(true);
+  mSpritesheetAnimation_bullet->setFrameRate(10);
 }
 
 void MyApp::update() {
+  mFps = getAverageFps();
+  mVideo1.update();
   const auto time = system_clock::now();
   if (time - last_time > std::chrono::milliseconds(speed)) {
     engine.Step();
@@ -105,52 +71,22 @@ void MyApp::update() {
     engine.ProjectileStep();
     last_time_projectile = time;
 
-
-
   }
-  //std::cout<<engine.GetAlienWave().getSize()<<std::endl;
   for (po::SpritesheetAnimationRef a : alien_vector) {
-      a->update();
-
+    a->update();
   }
+  mSpritesheetAnimation_bullet->update();
 
 }
 
 void MyApp::draw() {
   cinder::gl::clear();
-  DrawAlienWave();
+   // mVideo1.draw( 0, 0, 800, 800 );
+    //mParams->draw();
+    //DrawAlienWave();
   DrawPlayer();
   DrawProjectile();
-
-
-  //int i = 0;
-
-  for (po::SpritesheetAnimationRef a : alien_vector) {
-
-    //space_invader::Location loc = engine.GetAlienWave().GetAlienth(i).GetLocation();
-      space_invader::Location loc = engine.GetAlienWave().GetAlienth(index).GetLocation();
-
-
-      int x = loc.Row();
-      int y = loc.Col();
-      mPos = ci::vec2(x * 50, y * 50);
-      mEndPos = ci::vec2(x+50, y);
-
-
-    ci::gl::pushModelView();
-
-    ci::vec2 val = mPos.value();
-    index++;
-
-    ci::gl::translate(val.x, val.y);
-    a->draw();
-
-    ci::gl::popModelView();
-    if (index == alien_vector.size()) {
-        index = 0;
-    }
-
-  }
+  DrawAlienWave();
 
 
 }
@@ -167,6 +103,7 @@ void MyApp::keyDown(KeyEvent event) {
     }
     case KeyEvent::KEY_SPACE: {
       engine.SetProjectileDirection(space_invader::Direction::kShoot);
+      isSpace = true;
       break;
     }
   }
@@ -184,12 +121,17 @@ void MyApp::keyUp(KeyEvent event) {
 
     case KeyEvent::KEY_SPACE: {
       engine.SetProjectileDirection(space_invader::Direction::kShoot);
+      //isSpace = false;
       break;
     }
 
   }
 }
-void MyApp::DrawProjectile() const {
+void MyApp::DrawProjectile() {
+  if (engine.GetProjectile()->IsVisibile() == false) {
+    return;
+  }
+  /*
   if (engine.GetPlayer().IsVisibile() == false) {
     return;
   }
@@ -204,6 +146,23 @@ void MyApp::DrawProjectile() const {
                                   alien_size * alien_loc.Col() + (2 * projectile_size),
                                   alien_size * alien_loc.Row() + alien_size - projectile_size,
                                   alien_size * alien_loc.Col() + alien_size));
+                                  */
+  space_invader::Location loc = engine.GetProjectile()->GetLocation();
+  int x = loc.Row();
+  int y = loc.Col();
+
+  mPos = ci::vec2((x * 50) +50/3, y * 50);
+  mEndPos = ci::vec2(x, y + 50);
+  ci::gl::pushModelView();
+
+  ci::vec2 val = mPos.value();
+
+  ci::gl::translate(val.x, val.y);
+
+
+  mSpritesheetAnimation_bullet -> draw();
+  ci::gl::popModelView();
+
 
 }
 void MyApp::DrawPlayer() const {
@@ -217,35 +176,32 @@ void MyApp::DrawPlayer() const {
                                   alien_size * loc.Col() + alien_size));
 }
 
-void MyApp::DrawAlienWave() const{
-  //ci::gl::clear(Color::gray(0.2));
-  for (const space_invader::Alien& alien : engine.GetAlienWave()) {
-    if (alien.IsVisibile() == false) {
-      continue;
-    }
+void MyApp::DrawAlienWave(){
+  for (po::SpritesheetAnimationRef a : alien_vector) {
 
+    space_invader::Location loc = engine.GetAlienWave().GetAlienth(index).GetLocation();
 
-    space_invader::Location loc = alien.GetLocation();
+    int x = loc.Row();
+    int y = loc.Col();
+    mPos = ci::vec2(x * 50, y * 50);
+    mEndPos = ci::vec2(x+50, y);
 
-    /*
     ci::gl::pushModelView();
-    std::cout << mPos.value() << std::endl;
+
     ci::vec2 val = mPos.value();
 
     ci::gl::translate(val.x, val.y);
-    mSpritesheetAnimation->draw();
+    if (engine.GetAlienWave().GetAlienth(index).IsVisibile() == true) {
+      a->draw();
+    }
+    index++;
     ci::gl::popModelView();
-     */
+    if (index == alien_vector.size()) {
+      index = 0;
+    }
 
-
-
-    //space_invader::Location loc = alien.GetLocation();
-    cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
-                                    alien_size * loc.Col(),
-                                    alien_size * loc.Row() + alien_size,
-                                    alien_size * loc.Col() + alien_size));
   }
-  //std::cout<<engine.GetAlienWave().getSize()<<std::endl;
+
 }
 
 }  // namespace myapp

@@ -35,6 +35,9 @@ Projectile* Engine::GetProjectile() const {
 Projectile* Engine::GetAlienProjectile() const {
   return alien_projectile;
 }
+int Engine::GetProjectileDistance() const {
+  return projectile_distance;
+}
 
 void Engine::PlayerStep() {
   Location player_location = MovePlayer(direction_);
@@ -50,6 +53,7 @@ void Engine::PlayerStep() {
 
 void Engine::ProjectileStep() {
   if (direction_projectile == Direction::kShoot) {
+    projectile->SetVisibility(true);
     Location projectile_location = MoveProjectile();
     Location new_projectile_loc =
         (projectile->GetLocation() + projectile_location);
@@ -59,6 +63,7 @@ void Engine::ProjectileStep() {
       if (alien.GetLocation() == projectile->GetLocation() && alien.IsVisibile()) {
         delete projectile;
         alien.SetVisibility(false);
+        projectile->SetVisibility(false);
         Projectile* new_projectile = new Projectile(player.GetLocation());
         projectile = new_projectile;
         direction_projectile = Direction::kReload;
@@ -67,6 +72,7 @@ void Engine::ProjectileStep() {
     }
     if (projectile_distance == 16) {
       delete projectile;
+      projectile->SetVisibility(false);
       Projectile* new_projectile = new Projectile(player.GetLocation());
       projectile = new_projectile;
       direction_projectile = Direction::kReload;

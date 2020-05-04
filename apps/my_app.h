@@ -3,6 +3,7 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 
+
 #include <cinder/Tween.h>
 #include <cinder/app/App.h>
 #include <poSpritesheet/poSpritesheet.h>
@@ -12,6 +13,7 @@
 #include "ciWMFVideoPlayer.h"
 #include "cinder/ImageIo.h"
 #include "cinder/gl/Texture.h"
+#include "cinder/params/Params.h"
 
 namespace myapp {
 
@@ -25,9 +27,9 @@ class MyApp : public cinder::app::App {
   void keyUp(cinder::app::KeyEvent) override;
 
  private:
-  void DrawAlienWave() const;
+  void DrawAlienWave();
   void DrawPlayer() const;
-  void DrawProjectile() const;
+  void DrawProjectile();
   space_invader::Engine engine;
   const size_t alien_size = 50;
   const size_t projectile_size = 50/3;
@@ -37,26 +39,28 @@ class MyApp : public cinder::app::App {
   std::chrono::time_point<std::chrono::system_clock> last_time;
   std::chrono::time_point<std::chrono::system_clock> last_time_player;
   std::chrono::time_point<std::chrono::system_clock> last_time_projectile;
+
   bool isSpace = false;
-  bool isFired = false;
-  //ofstream::dog;
-  bool isFirst = true;
-  int count = 0;
 
-  //cinder::gl::Texture player_bullet_image;
-
-  //po::SpritesheetRef mSpritesheet;
-  //po::SpritesheetAnimationRef mSpritesheetAnimation;
 
   ci::Anim<cinder::vec2> mPos;
   cinder::vec2 mEndPos;
-  //ci::gl::TextureRef texture;
-  //cinder::JsonTree json;
   std::vector<po::SpritesheetAnimationRef> alien_vector;
-  std::vector<ci::Anim<cinder::vec2>> mPos_vector;
-  std::vector<ci::Anim<cinder::vec2>> mEndPos_vector;
   int index = 0;
-  int i = 0;
+
+
+
+  bool mVideoSetup;
+  ciWMFVideoPlayer mVideo1;
+
+  ci::params::InterfaceGlRef mParams;
+  float	mFps;
+
+  ci::Anim<cinder::vec2> bullet_pos;
+  cinder::vec2 end_bullet_pos;
+
+  po::SpritesheetRef mSpritesheet_bullet;
+  po::SpritesheetAnimationRef mSpritesheetAnimation_bullet;
 
 
 };

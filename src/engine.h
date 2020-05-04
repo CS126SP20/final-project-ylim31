@@ -19,6 +19,7 @@ class Engine {
   Player Engine::GetPlayer() const;
   Projectile* Engine::GetProjectile() const;
   Projectile* Engine::GetAlienProjectile() const;
+  int Engine::GetProjectileDistance() const;
 
 
   Location Engine::MoveAlienWave(bool toRight, int count);
