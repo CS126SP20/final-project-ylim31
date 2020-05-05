@@ -9,6 +9,7 @@
 
 #include "alien_wave.h"
 #include "direction.h"
+#include "nyan_cat.h"
 #include "player.h"
 #include "projectile.h"
 namespace space_invader {
@@ -19,18 +20,21 @@ class Engine {
   Player Engine::GetPlayer() const;
   Projectile* Engine::GetProjectile() const;
   Projectile* Engine::GetAlienProjectile() const;
-  int Engine::GetProjectileDistance() const;
+  NyanCat Engine::GetNyanCat() const;
+
 
 
   Location Engine::MoveAlienWave(bool toRight, int count);
   Location Engine::MovePlayer(const Direction direction);
   Location Engine::MoveProjectile();
   Location Engine::MoveAlienProjectile();
+  Location Engine::MoveNyanCat(const Direction direction);
 
   void Step();
   void PlayerStep();
   void ProjectileStep();
   void Engine::SetUpWave();
+  void NyanCatStep();
 
   // Changes the direction of the player for the next time step.
   void SetDirection(Direction);
@@ -43,17 +47,19 @@ class Engine {
   Direction direction_;
   Direction direction_projectile;
   Direction direction_alien_projectile;
+  Direction direction_nyan_cat;
   Player player;
+  NyanCat nyan_cat;
   Projectile* projectile;
   Projectile* alien_projectile;
-  bool isFirst = true;
   int count = 0;
   int projectile_distance = 0;
   int alien_projectile_distance = 0;
   bool toRight = true;
-  //Alien* aliens;
+  int show_nyan = 0;
 
-  Alien* aliens;
+
+
 
 
 };

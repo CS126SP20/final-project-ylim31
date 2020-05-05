@@ -8,7 +8,7 @@
 namespace space_invader {
 //kshoot
 
-enum class Direction {kLeft, kRight, kStop, kShoot, kReload};
+enum class Direction {kLeft, kRight, kStop, kShoot, kReload, kNyanRight};
 }
 
 

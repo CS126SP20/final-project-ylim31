@@ -17,7 +17,9 @@ Engine::Engine():
 player(Location(6,15)),
 direction_{Direction::kStop},
 direction_projectile{Direction::kStop},
-direction_alien_projectile{Direction::kShoot}{
+direction_alien_projectile{Direction::kShoot},
+direction_nyan_cat{Direction::kStop},
+nyan_cat(Location(-3, 0)){
   projectile = new Projectile(player.GetLocation());
 
 }
@@ -35,9 +37,23 @@ Projectile* Engine::GetProjectile() const {
 Projectile* Engine::GetAlienProjectile() const {
   return alien_projectile;
 }
-int Engine::GetProjectileDistance() const {
-  return projectile_distance;
+NyanCat Engine::GetNyanCat() const {
+  return  nyan_cat;
 }
+
+void Engine::NyanCatStep() {
+  show_nyan++;
+  if (show_nyan == 50) {
+    direction_nyan_cat = Direction::kNyanRight;
+    show_nyan = 0;
+  }
+
+  Location nyan_cat_location = MoveNyanCat(direction_nyan_cat);
+  Location new_nyan_cat_location = (nyan_cat.GetLocation() + nyan_cat_location);
+  nyan_cat.SetLocation(new_nyan_cat_location);
+
+}
+
 
 void Engine::PlayerStep() {
   Location player_location = MovePlayer(direction_);
@@ -105,7 +121,6 @@ void Engine::ProjectileStep() {
   }
 }
 void Engine::SetUpWave() {
-
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 6; j++) {
         Location location(j * 2, i * 2);
@@ -113,7 +128,6 @@ void Engine::SetUpWave() {
       }
     }
     alien_projectile = new Projectile(alien_wave.GetAlien(2, 1).GetLocation());
-
   }
 
 void Engine::Step() {
@@ -150,6 +164,13 @@ Location Engine::MoveProjectile() {
 
 Location Engine::MoveAlienProjectile() {
     return {0, +1};
+}
+Location Engine::MoveNyanCat(const Direction direction) {
+  if (direction_nyan_cat == Direction::kNyanRight) {
+    return {+0.25, 0};
+  }
+  return {0, 0};
+
 }
 
 Location Engine::MovePlayer(const Direction direction) {

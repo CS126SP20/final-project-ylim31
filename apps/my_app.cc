@@ -52,7 +52,7 @@ void MyApp::setup() {
   mSpritesheetAnimation_bullet = po::SpritesheetAnimation::create(mSpritesheet_bullet);
   mSpritesheetAnimation_bullet->play();
   mSpritesheetAnimation_bullet->setIsLoopingEnabled(true);
-  mSpritesheetAnimation_bullet->setFrameRate(10);
+  mSpritesheetAnimation_bullet->setFrameRate(4);
 
   ci::gl::TextureRef texture_alien_bullet = ci::gl::Texture::create(loadImage(loadAsset("alienbullet.png")));
   cinder::JsonTree json_alien_bullet = cinder::JsonTree(loadAsset("alienbullet.json"));
@@ -60,7 +60,19 @@ void MyApp::setup() {
   mSpritesheetAnimation_alien_bullet = po::SpritesheetAnimation::create(mSpritesheet_alien_bullet);
   mSpritesheetAnimation_alien_bullet->play();
   mSpritesheetAnimation_alien_bullet->setIsLoopingEnabled(true);
-  mSpritesheetAnimation_alien_bullet->setFrameRate(10);
+  mSpritesheetAnimation_alien_bullet->setFrameRate(4);
+
+  ci::gl::TextureRef texture_nyan_cat = ci::gl::Texture::create(loadImage(loadAsset("nyan_cat.png")));
+  cinder::JsonTree json_nyan_cat = cinder::JsonTree(loadAsset("nyan_cat.json"));
+  mSpritesheet_nyan_cat = po::Spritesheet::create(texture_nyan_cat, json_nyan_cat);
+  mSpritesheetAnimation_nyan_cat = po::SpritesheetAnimation::create(mSpritesheet_nyan_cat);
+  mSpritesheetAnimation_nyan_cat->play();
+  mSpritesheetAnimation_nyan_cat->setIsLoopingEnabled(true);
+  mSpritesheetAnimation_nyan_cat->setFrameRate(5);
+
+
+
+  texture_player = ci::gl::Texture::create(loadImage(loadAsset("player.png")));
 }
 
 void MyApp::update() {
@@ -69,14 +81,17 @@ void MyApp::update() {
   const auto time = system_clock::now();
   if (time - last_time > std::chrono::milliseconds(speed)) {
     engine.Step();
+
     last_time = time;
   }
   if (time - last_time_player > std::chrono::milliseconds(speed_player)) {
     engine.PlayerStep();
+
     last_time_player = time;
   }
   if (time - last_time_projectile > std::chrono::milliseconds(speed_projectile)) {
     engine.ProjectileStep();
+    engine.NyanCatStep();
     last_time_projectile = time;
 
   }
@@ -85,6 +100,7 @@ void MyApp::update() {
   }
   mSpritesheetAnimation_bullet->update();
   mSpritesheetAnimation_alien_bullet->update();
+  mSpritesheetAnimation_nyan_cat->update();
 
 }
 
@@ -97,6 +113,8 @@ void MyApp::draw() {
   DrawProjectile();
   DrawAlienWave();
   DrawAlienProjectile();
+  DrawNyanCat();
+
 
 
 }
@@ -156,6 +174,23 @@ void MyApp::DrawAlienProjectile() {
   ci::gl::popModelView();
 
 }
+void MyApp::DrawNyanCat() {
+  space_invader::Location loc = engine.GetNyanCat().GetLocation();
+  int x = loc.Row();
+  int y = loc.Col();
+
+  mPos = ci::vec2(x * 50, y * 50);
+  mEndPos = ci::vec2(x + 50, y);
+  ci::gl::pushModelView();
+
+  ci::vec2 val = mPos.value();
+
+  ci::gl::translate(val.x, val.y);
+
+
+  mSpritesheetAnimation_nyan_cat -> draw();
+  ci::gl::popModelView();
+}
 void MyApp::DrawProjectile() {
   if (engine.GetProjectile()->IsVisibile() == false) {
     return;
@@ -194,15 +229,20 @@ void MyApp::DrawProjectile() {
 
 
 }
-void MyApp::DrawPlayer() const {
+void MyApp::DrawPlayer() {
   if (engine.GetPlayer().IsVisibile() == false) {
     return;
   }
   space_invader::Location loc = engine.GetPlayer().GetLocation();
+  player_location = cinder::vec2(loc.Row() * 50, loc.Col() * 50);
+  ci::gl::draw(texture_player, player_location);
+
+  /*
   cinder::gl::drawSolidRect(Rectf(alien_size * loc.Row(),
                                   alien_size * loc.Col(),
                                   alien_size * loc.Row() + alien_size,
                                   alien_size * loc.Col() + alien_size));
+                                  */
 }
 
 void MyApp::DrawAlienWave(){

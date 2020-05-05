@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "nyan_cat1.png",
+	"frame": {"x":0,"y":0,"w":112,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":42},
+	"sourceSize": {"w":112,"h":42}
+},
+{
+	"filename": "nyan_cat2.png",
+	"frame": {"x":0,"y":42,"w":112,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":42},
+	"sourceSize": {"w":112,"h":42}
+},
+{
+	"filename": "nyan_cat3.png",
+	"frame": {"x":0,"y":84,"w":112,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":42},
+	"sourceSize": {"w":112,"h":42}
+},
+{
+	"filename": "nyan_cat4.png",
+	"frame": {"x":0,"y":126,"w":112,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":42},
+	"sourceSize": {"w":112,"h":42}
+},
+{
+	"filename": "nyan_cat5.png",
+	"frame": {"x":0,"y":168,"w":112,"h":42},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":42},
+	"sourceSize": {"w":112,"h":42}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "nyan_cat.png",
+	"format": "RGBA8888",
+	"size": {"w":112,"h":210},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:cb75f2afc90d024a2687e0f8d6fae696:3c6931ad768e0ded1fd7c178c233fac6:76345b48204857651ed8a90f8c76faf6$"
+}
+}
