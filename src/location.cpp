@@ -6,7 +6,7 @@
 
 namespace space_invader {
 
-Location::Location(double row, double col) : row_(row), col_(col) {}
+Location::Location(int row, int col) : row_(row), col_(col) {}
 
 bool Location::operator==(const Location& rhs) const {
   return row_ == rhs.row_ && col_ == rhs.col_;
@@ -51,8 +51,7 @@ Location& Location::operator+=(const Location& rhs) {
   return *this;
 }
 
-
-double mod(int a, int b) {
+int mod(int a, int b) {
   int c = a % b;
   return c + (c < 0 ? b : 0);
 }
@@ -61,9 +60,7 @@ Location Location::operator%(const Location& rhs) const {
   return {mod(row_, rhs.row_), mod(col_, rhs.col_)};
 }
 
-double Location::Row() const { return row_; }
+int Location::Row() const { return row_; }
 
-double Location::Col() const { return col_; }
-
-
+int Location::Col() const { return col_; }
 }

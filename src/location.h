@@ -11,7 +11,7 @@ namespace space_invader {
 // Represents a location on the board.
 class Location {
  public:
-  Location(double row, double col);
+  Location(int row, int col);
 
   // Comparison operators.
   bool operator()(const Location& lhs, const Location& rhs) const;
@@ -30,14 +30,13 @@ class Location {
   Location& operator+=(const Location& rhs);
   Location operator-() const;
 
-
   // Accessors.
-  double Row() const;
-  double Col() const;
+  int Row() const;
+  int Col() const;
 
  private:
-  double row_;
-  double col_;
+  int row_;
+  int col_;
 };
 
 }

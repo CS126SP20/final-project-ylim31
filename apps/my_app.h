@@ -19,7 +19,6 @@ namespace myapp {
 
 class MyApp : public cinder::app::App {
  public:
-  MyApp();
   void setup() override;
   void update() override;
   void draw() override;
@@ -29,55 +28,40 @@ class MyApp : public cinder::app::App {
  private:
   void DrawAlienWave();
   void DrawPlayer();
-  void DrawProjectile();
+  void DrawPlayerProjectile();
   void DrawAlienProjectile();
   void DrawNyanCat();
+
+  const size_t kTileSize = 50/3;
+  int alien_speed = 200;
+  int nyan_cat_speed = 100;
+  int player_speed = 40;
+  int projectile_speed = 12;
+
   space_invader::Engine engine;
-  const size_t alien_size = 50;
-  const size_t projectile_size = 50/3;
-  const size_t speed = 1000;
-  const size_t speed_player = 80;
-  const size_t speed_projectile = 40;
-  std::chrono::time_point<std::chrono::system_clock> last_time;
+  std::chrono::time_point<std::chrono::system_clock> last_time_alien;
+  std::chrono::time_point<std::chrono::system_clock> last_time_nyan_cat;
   std::chrono::time_point<std::chrono::system_clock> last_time_player;
   std::chrono::time_point<std::chrono::system_clock> last_time_projectile;
 
-  bool isSpace = false;
-
-
-  ci::Anim<cinder::vec2> mPos;
-  cinder::vec2 mEndPos;
-  std::vector<po::SpritesheetAnimationRef> alien_vector;
-  int index = 0;
-
-
-
-  bool mVideoSetup;
-  ciWMFVideoPlayer mVideo1;
-
-  ci::params::InterfaceGlRef mParams;
-  float	mFps;
-
-  ci::Anim<cinder::vec2> bullet_pos;
-  cinder::vec2 end_bullet_pos;
-
   po::SpritesheetRef mSpritesheet_bullet;
   po::SpritesheetAnimationRef mSpritesheetAnimation_bullet;
-
-
-  ci::Anim<cinder::vec2> alien_bullet_mPos;
-  cinder::vec2 alien_bullet_mEndPos;
-
   po::SpritesheetRef mSpritesheet_alien_bullet;
   po::SpritesheetAnimationRef mSpritesheetAnimation_alien_bullet;
-
-  ci::gl::TextureRef texture_player;
-  cinder::vec2 player_location;
-
   po::SpritesheetRef mSpritesheet_nyan_cat;
   po::SpritesheetAnimationRef mSpritesheetAnimation_nyan_cat;
 
+  ci::Anim<cinder::vec2> mPos;
+  std::vector<po::SpritesheetAnimationRef> alien_spritesheetanim_vector;
+  int alien_count = 0;
 
+  bool mVideoSetup;
+  ciWMFVideoPlayer mVideo1;
+  ci::params::InterfaceGlRef mParams;
+  float	mFps;
+
+  ci::gl::TextureRef texture_player;
+  ci::gl::TextureRef texture_alien_bullet;
 };
 
 }  // namespace myapp

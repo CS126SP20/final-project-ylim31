@@ -7,8 +7,8 @@
 
 #include <vector>
 
+#include "Action.h"
 #include "alien_wave.h"
-#include "direction.h"
 #include "nyan_cat.h"
 #include "player.h"
 #include "projectile.h"
@@ -22,46 +22,45 @@ class Engine {
   Projectile* Engine::GetAlienProjectile() const;
   NyanCat Engine::GetNyanCat() const;
 
-
-
-  Location Engine::MoveAlienWave(bool toRight, int count);
-  Location Engine::MovePlayer(const Direction direction);
-  Location Engine::MoveProjectile();
-  Location Engine::MoveAlienProjectile();
-  Location Engine::MoveNyanCat(const Direction direction);
-
-  void Step();
+  void AlienStep();
   void PlayerStep();
-  void ProjectileStep();
-  void Engine::SetUpWave();
+  void PlayerProjectileStep();
+  void AlienProjectileStep();
   void NyanCatStep();
 
-  // Changes the direction of the player for the next time step.
-  void SetDirection(Direction);
-  void Engine::SetProjectileDirection(const space_invader::Direction direction);
+  void Engine::SetUpWave();
+  void SetDirection(const Action);
+  void Engine::SetProjectileDirection(const Action);
+
+  Location Engine::MoveAlienWave(bool toRight, int count_to_border);
+  Location Engine::MovePlayer();
+  Location Engine::MoveProjectile();
+  Location Engine::MoveAlienProjectile();
+  Location Engine::MoveNyanCat();
 
  private:
   AlienWave alien_wave;
-  int height = 16;
-  int width = 16;
-  Direction direction_;
-  Direction direction_projectile;
-  Direction direction_alien_projectile;
-  Direction direction_nyan_cat;
   Player player;
   NyanCat nyan_cat;
-  Projectile* projectile;
+  Projectile* player_projectile;
   Projectile* alien_projectile;
-  int count = 0;
+
+
+  Action action_player;
+  Action action_player_projectile;
+  Action action_alien_projectile;
+  Action action_nyan_cat;
+
+  int count_to_border = 0;
   int projectile_distance = 0;
   int alien_projectile_distance = 0;
-  bool toRight = true;
   int show_nyan = 0;
+  bool toRight = true;
 
-
-
-
-
+  int kDistanceToOppositeBorder = 16;
+  int kDimension = 48;
+  int kNumberOfRows = 3;
+  int kNumberOfCols = 6;
 };
 }
 

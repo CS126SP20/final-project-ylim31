@@ -10,7 +10,6 @@ namespace space_invader {
   class Projectile {
    public:
     explicit Projectile(const Location& location);
-    Projectile::Projectile(const Projectile& projectile);
     Location GetLocation() const;
     Location SetLocation(const Location&);
     void SetVisibility(bool visible);
@@ -18,7 +17,6 @@ namespace space_invader {
    private:
     Location location_;
     bool visible_;
-
   };
 }
 

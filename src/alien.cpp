@@ -9,7 +9,6 @@ namespace space_invader {
 Alien::Alien(const Location& location)
     : location_(location), visible_{true} {}
 
-//copy constructor
 Location Alien::GetLocation() const { return location_; }
 
 Location Alien::SetLocation(const Location& location) {
@@ -20,12 +19,4 @@ Location Alien::SetLocation(const Location& location) {
 void Alien::SetVisibility(bool visible) { visible_ = visible; }
 
 bool Alien::IsVisibile() const { return visible_; }
-
-void Alien::Clear() {
-  delete this;
-}
-
-
-
-
 }
