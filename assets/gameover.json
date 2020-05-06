@@ -1,0 +1,84 @@
+{"frames": [
+
+{
+	"filename": "empty.png",
+	"frame": {"x":0,"y":0,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "g.png",
+	"frame": {"x":0,"y":54,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "ga.png",
+	"frame": {"x":0,"y":108,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "gam.png",
+	"frame": {"x":0,"y":162,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "game.png",
+	"frame": {"x":0,"y":216,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "gameo.png",
+	"frame": {"x":0,"y":270,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "gameov.png",
+	"frame": {"x":0,"y":324,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "gameove.png",
+	"frame": {"x":0,"y":378,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+},
+{
+	"filename": "gameover.png",
+	"frame": {"x":0,"y":432,"w":378,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":378,"h":54},
+	"sourceSize": {"w":378,"h":54}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "gameover.png",
+	"format": "RGBA8888",
+	"size": {"w":378,"h":486},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:622db995aea12a82addb015843907098:7d3a2aeb65f0b210e4fb7171a0415338:7ac94ad4b69b76fc7998c80955f4839b$"
+}
+}

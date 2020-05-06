@@ -16,6 +16,11 @@
 #include "cinder/params/Params.h"
 
 namespace myapp {
+enum class GameState {
+  kStartScreen,
+  kPlaying,
+  kGameOver,
+};
 
 class MyApp : public cinder::app::App {
  public:
@@ -26,16 +31,28 @@ class MyApp : public cinder::app::App {
   void keyUp(cinder::app::KeyEvent) override;
 
  private:
+  void SetGame();
+  void SetWaveAnimation(int wave_number);
+
+
   void DrawAlienWave();
   void DrawPlayer();
   void DrawPlayerProjectile();
   void DrawAlienProjectile();
   void DrawNyanCat();
+  void DrawStartScreen();
+  void DrawGameOver();
+
+  void MyApp::ResetGame();
+  bool MyApp::IsWaveClear();
 
   const size_t kTileSize = 50/3;
-  int alien_speed = 200;
+  const int kMaxWave = 3;
+  const int kAlienMaxSpeed = 60;
+
+  int alien_speed = 300;
   int nyan_cat_speed = 100;
-  int player_speed = 40;
+  int player_speed = 30;
   int projectile_speed = 12;
 
   space_invader::Engine engine;
@@ -44,16 +61,17 @@ class MyApp : public cinder::app::App {
   std::chrono::time_point<std::chrono::system_clock> last_time_player;
   std::chrono::time_point<std::chrono::system_clock> last_time_projectile;
 
-  po::SpritesheetRef mSpritesheet_bullet;
-  po::SpritesheetAnimationRef mSpritesheetAnimation_bullet;
-  po::SpritesheetRef mSpritesheet_alien_bullet;
-  po::SpritesheetAnimationRef mSpritesheetAnimation_alien_bullet;
+  po::SpritesheetRef mSpritesheet_gameover;
+  po::SpritesheetAnimationRef mSpritesheetAnimation_gameover;
   po::SpritesheetRef mSpritesheet_nyan_cat;
   po::SpritesheetAnimationRef mSpritesheetAnimation_nyan_cat;
 
   ci::Anim<cinder::vec2> mPos;
   std::vector<po::SpritesheetAnimationRef> alien_spritesheetanim_vector;
   int alien_count = 0;
+  int wave_count = 1;
+  bool did_start = false;
+  bool did_gameover_start = false;
 
   bool mVideoSetup;
   ciWMFVideoPlayer mVideo1;
@@ -62,6 +80,9 @@ class MyApp : public cinder::app::App {
 
   ci::gl::TextureRef texture_player;
   ci::gl::TextureRef texture_alien_bullet;
+  ci::gl::TextureRef texture_player_bullet;
+  GameState state;
+
 };
 
 }  // namespace myapp

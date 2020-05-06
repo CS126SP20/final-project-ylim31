@@ -38,6 +38,8 @@ class Engine {
   Location Engine::MoveAlienProjectile();
   Location Engine::MoveNyanCat();
 
+  void Engine::ResetGame();
+  Location Engine::GetInitialAlienPosition(int n);
  private:
   AlienWave alien_wave;
   Player player;

@@ -101,7 +101,14 @@ void Engine::AlienProjectileStep() {
   Location projectile_location = MoveAlienProjectile();
   Location new_projectile_loc =
       (alien_projectile->GetLocation() + projectile_location);
+  Location player_hitbox_1(player.GetLocation().Row() + 1, player.GetLocation().Col());
+  Location player_hitbox_2(player.GetLocation().Row() + 2, player.GetLocation().Col());
   alien_projectile->SetLocation(new_projectile_loc);
+  if (alien_projectile->GetLocation() == player.GetLocation()
+  || alien_projectile->GetLocation() == player_hitbox_1
+  || alien_projectile->GetLocation() == player_hitbox_2) {
+    player.SetVisibility(false);
+  }
   alien_projectile_distance++;
   if (alien_projectile_distance == kDimension) {
     int random_int = std::rand() % kNumberOfCols;
@@ -125,7 +132,7 @@ void Engine::AlienProjectileStep() {
 
 void Engine::NyanCatStep() {
   show_nyan++;
-  if (show_nyan == kDimension) {
+  if (show_nyan == kDimension * 2) {
     action_nyan_cat = Action::kNyanRight;
     show_nyan = 0;
   }
@@ -189,5 +196,34 @@ Location Engine::MovePlayer() {
     return {-1, 0};
   }
   return {0,0};
+}
+void Engine::ResetGame() {
+  int n = 0;
+  for (Alien& alien : alien_wave) {
+    alien.SetVisibility(true);
+    alien.SetLocation(GetInitialAlienPosition(n));
+    n++;
+  }
+  count_to_border = 0;
+  projectile_distance = 0;
+  alien_projectile_distance = 0;
+  show_nyan = 0;
+  player.SetVisibility(true);
+  toRight = true;
+}
+
+Location Engine::GetInitialAlienPosition(int n) {
+  Location temp(0,0);
+  int count = 0;
+  for (int i = 0; i < kNumberOfRows; i++) {
+    for (int j = 0; j < kNumberOfCols; j++) {
+      if (count == n) {
+        Location initial(j * kNumberOfCols, i * kNumberOfCols);
+        temp = initial;
+      }
+      count++;
+    }
+  }
+  return temp;
 }
 }
