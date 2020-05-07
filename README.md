@@ -8,9 +8,9 @@
 
 ![alt text](assets/start.png)
 
-![alt text](assets/playing.png)
+![alt text](assets/play.png)
 
-##Dependencies
+## Dependencies
   - [cmake](https://cmake.org/)
   - [cinder](https://libcinder.org/)
   - [Cinder-WMFVideo](https://github.com/stimulant/Cinder-WMFVideo) 
@@ -21,13 +21,13 @@ You can use my forked versions for [Cinder-WMFVideo](https://github.com/ylim31/C
 [Cinder-poSpritesheet](https://github.com/ylim31/Cinder-poSpritesheet),
 and [Cinder-poScene](https://github.com/ylim31/Cinder-poScene) which includes the Configure.cmake files. 
 
-##Requirements
+## Requirements
   - Cinder-WMFVideo: Up to date video driver as WGL_NV_DX_interop behaves poorly with older drivers.
   - If you're using Cinder-poSpritesheet in conjunction with poScene, make sure you're on poScene v2.
   - If you're on an old project with Cinder 0.8.6, you can checkout the v0.8.6 tag.
   - Read their README.md for more details.
 
-##Controls    
+## Controls    
 | Key          | Action                                                      |
 |------------- |-------------------------------------------------------------|
 | `left arrow` | Move to the left                                            |
@@ -36,7 +36,7 @@ and [Cinder-poScene](https://github.com/ylim31/Cinder-poScene) which includes th
 | `r`          | Restart game                                                |
 | `p`          | Play game                                                   |
 
-##Score  
+## Score  
 | Type         | Points                                                      |
 |------------- |-------------------------------------------------------------|
 | Alien        | 10                                                          |
