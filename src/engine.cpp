@@ -3,11 +3,6 @@
 //
 
 #include "engine.h"
-
-#include <iostream>
-#include <random>
-#include <vector>
-
 #include "Action.h"
 #include "alien.h"
 #include "projectile.h"
@@ -52,7 +47,8 @@ void Engine::AlienStep() {
     Location alien_loc = MoveAlienWave(toRight, count_to_border);
     Location new_alien_loc = (alien.GetLocation() + alien_loc);
     alien.SetLocation(new_alien_loc);
-    if (alien.GetLocation().Col() == player.GetLocation().Col() && alien.IsVisibile()) {
+    if (alien.GetLocation().Col() == player.GetLocation().Col()
+    && alien.IsVisibile()) {
       player.SetVisibility(false);
     }
   }
@@ -69,7 +65,8 @@ void Engine::PlayerStep() {
       (player.GetLocation() + player_location) % Location(kDimension, kDimension);
   player.SetLocation(new_player_loc);
   if (action_player_projectile != Action::kShoot) {
-    Location scaled(player.GetLocation().Row() + 1, player.GetLocation().Col());
+    Location scaled(player.GetLocation().Row() + 1,
+        player.GetLocation().Col());
     player_projectile->SetLocation(scaled);
   }
 }
@@ -83,11 +80,14 @@ void Engine::PlayerProjectileStep() {
     player_projectile->SetLocation(new_projectile_loc);
     projectile_distance++;
     for (Alien& alien : alien_wave) {
-      Location alien_hitbox_1(alien.GetLocation().Row() + 1, alien.GetLocation().Col());
-      Location alien_hitbox_2(alien.GetLocation().Row() + 2, alien.GetLocation().Col());
+      Location alien_hitbox_1(alien.GetLocation().Row() + 1,
+          alien.GetLocation().Col() + 1);
+      Location alien_hitbox_2(alien.GetLocation().Row() + 2,
+          alien.GetLocation().Col() + 1);
       if ((alien.GetLocation() == player_projectile->GetLocation()
       || alien_hitbox_1 == player_projectile->GetLocation()
-      || alien_hitbox_2 == player_projectile->GetLocation()) && alien.IsVisibile()) {
+      || alien_hitbox_2 == player_projectile->GetLocation())
+      && alien.IsVisibile()) {
         score += 10;
         alien.SetVisibility(false);
         player_projectile->SetVisibility(false);
@@ -106,12 +106,18 @@ void Engine::PlayerProjectileStep() {
       action_player_projectile = Action::kReload;
       projectile_distance = 0;
     }
-    Location nyan_cat_hitbox_1(nyan_cat.GetLocation().Row() + 1, nyan_cat.GetLocation().Col());
-    Location nyan_cat_hitbox_2(nyan_cat.GetLocation().Row() + 2, nyan_cat.GetLocation().Col());
-    Location nyan_cat_hitbox_3(nyan_cat.GetLocation().Row() + 3, nyan_cat.GetLocation().Col());
-    Location nyan_cat_hitbox_4(nyan_cat.GetLocation().Row() + 4, nyan_cat.GetLocation().Col());
-    Location nyan_cat_hitbox_5(nyan_cat.GetLocation().Row() + 5, nyan_cat.GetLocation().Col());
-    Location nyan_cat_hitbox_6(nyan_cat.GetLocation().Row() + 6, nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_1(nyan_cat.GetLocation().Row() + 1,
+        nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_2(nyan_cat.GetLocation().Row() + 2,
+        nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_3(nyan_cat.GetLocation().Row() + 3,
+        nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_4(nyan_cat.GetLocation().Row() + 4,
+        nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_5(nyan_cat.GetLocation().Row() + 5,
+        nyan_cat.GetLocation().Col());
+    Location nyan_cat_hitbox_6(nyan_cat.GetLocation().Row() + 6,
+        nyan_cat.GetLocation().Col());
     if (player_projectile->GetLocation() == nyan_cat.GetLocation()
     || player_projectile->GetLocation() == nyan_cat_hitbox_1
     || player_projectile->GetLocation() == nyan_cat_hitbox_2
@@ -135,8 +141,10 @@ void Engine::AlienProjectileStep() {
   Location projectile_location = MoveAlienProjectile();
   Location new_projectile_loc =
       (alien_projectile->GetLocation() + projectile_location);
-  Location player_hitbox_1(player.GetLocation().Row() + 1, player.GetLocation().Col());
-  Location player_hitbox_2(player.GetLocation().Row() + 2, player.GetLocation().Col());
+  Location player_hitbox_1(player.GetLocation().Row() + 1,
+      player.GetLocation().Col());
+  Location player_hitbox_2(player.GetLocation().Row() + 2,
+      player.GetLocation().Col());
   alien_projectile->SetLocation(new_projectile_loc);
   if (alien_projectile->GetLocation() == player.GetLocation()
   || alien_projectile->GetLocation() == player_hitbox_1
@@ -155,8 +163,10 @@ void Engine::AlienProjectileStep() {
     alien_projectile_distance = 12;
     if (shoot_row != -1) {
       delete alien_projectile;
-      Projectile* new_alien_projectile = new Projectile(alien_wave.GetAlien(shoot_row, random_int).GetLocation());
-      Location scaled(new_alien_projectile->GetLocation().Row() + 1, new_alien_projectile->GetLocation().Col() + 2);
+      Projectile* new_alien_projectile = new Projectile(
+          alien_wave.GetAlien(shoot_row, random_int).GetLocation());
+      Location scaled(new_alien_projectile->GetLocation().Row() + 1,
+          new_alien_projectile->GetLocation().Col() + 2);
       new_alien_projectile->SetLocation(scaled);
       alien_projectile = new_alien_projectile;
       alien_projectile_distance = 0;
@@ -186,11 +196,13 @@ void Engine::NyanCatStep() {
 void Engine::SetUpWave() {
   for (int i = 0; i < kNumberOfRows; i++) {
     for (int j = 0; j < kNumberOfCols; j++) {
-      Location location(j * kNumberOfCols, i * kNumberOfCols + kNumberOfCols);
+      Location location(j * kNumberOfCols,
+          i * kNumberOfCols + kNumberOfCols);
       alien_wave.FillWave(Alien(location));
     }
   }
-  Location scaled(alien_wave.GetAlien(2, 1).GetLocation().Row() + 1, alien_wave.GetAlien(2, 1).GetLocation().Col() + 2);
+  Location scaled(alien_wave.GetAlien(2, 1).GetLocation().Row() + 1,
+      alien_wave.GetAlien(2, 1).GetLocation().Col() + 2);
   alien_projectile = new Projectile(scaled);
 }
 
@@ -291,7 +303,8 @@ Location Engine::GetInitialAlienPosition(int n) {
   for (int i = 0; i < kNumberOfRows; i++) {
     for (int j = 0; j < kNumberOfCols; j++) {
       if (count == n) {
-        Location initial(j * kNumberOfCols, i * kNumberOfCols + kNumberOfCols);
+        Location initial(j * kNumberOfCols,
+            i * kNumberOfCols + kNumberOfCols);
         temp = initial;
       }
       count++;

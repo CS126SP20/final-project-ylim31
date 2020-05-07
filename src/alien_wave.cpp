@@ -1,7 +1,6 @@
 //
 // Created by Josh on 4/22/2020.
 //
-#include <algorithm>
 #include <deque>
 #include "alien_wave.h"
 namespace space_invader {

@@ -23,23 +23,19 @@ class Engine {
   NyanCat Engine::GetNyanCat() const;
   int Engine::GetScore() const;
   int Engine::GetHighScore() const;
-
   void AlienStep();
   void PlayerStep();
   void PlayerProjectileStep();
   void AlienProjectileStep();
   void NyanCatStep();
-
   void Engine::SetUpWave();
   void SetDirection(const Action);
   void Engine::SetProjectileDirection(const Action);
-
   Location Engine::MoveAlienWave(bool toRight, int count_to_border);
   Location Engine::MovePlayer();
   Location Engine::MoveProjectile();
   Location Engine::MoveAlienProjectile();
   Location Engine::MoveNyanCat();
-
   void Engine::ResetGame();
   void Engine::NextWave();
   Location Engine::GetInitialAlienPosition(int n);
@@ -49,13 +45,10 @@ class Engine {
   NyanCat nyan_cat;
   Projectile* player_projectile;
   Projectile* alien_projectile;
-
-
   Action action_player;
   Action action_player_projectile;
   Action action_alien_projectile;
   Action action_nyan_cat;
-
   int count_to_border = 0;
   int projectile_distance = 0;
   int alien_projectile_distance = 0;
@@ -65,7 +58,6 @@ class Engine {
   int spawn_nyan_cat = 0;
   int random_nyan_spawn = std::rand() % 40 + 18;
   bool toRight = true;
-
   int kDistanceToOppositeBorder = 16;
   int kDimension = 48;
   int kNumberOfRows = 3;

@@ -8,6 +8,7 @@
 #include <cinder/app/App.h>
 #include <poSpritesheet/poSpritesheet.h>
 #include <poSpritesheet/poSpritesheetAnimation.h>
+#include <cinder/audio/audio.h>
 
 #include "../src/engine.h"
 #include "ciWMFVideoPlayer.h"
@@ -33,8 +34,6 @@ class MyApp : public cinder::app::App {
  private:
   void SetGame();
   void SetWaveAnimation(int wave_number);
-
-
   void DrawAlienWave();
   void DrawPlayer();
   void DrawPlayerProjectile();
@@ -43,7 +42,6 @@ class MyApp : public cinder::app::App {
   void DrawStartScreen();
   void DrawGameOver();
   void DrawScore();
-
   void MyApp::ResetGame();
   void MyApp::NextWave();
   bool MyApp::IsWaveClear();
@@ -52,13 +50,14 @@ class MyApp : public cinder::app::App {
   const int kMaxWave = 3;
   const int kAlienMaxSpeed = 60;
 
-  int alien_speed = 50;
+  int alien_speed = 300;
   int nyan_cat_speed = 60;
   int player_speed = 25;
   int projectile_speed = 6;
-  int alien_projectile_speed = 12;
+  int alien_projectile_speed = 14;
 
   space_invader::Engine engine;
+  GameState state;
   std::chrono::time_point<std::chrono::system_clock> last_time_alien;
   std::chrono::time_point<std::chrono::system_clock> last_time_nyan_cat;
   std::chrono::time_point<std::chrono::system_clock> last_time_player;
@@ -69,25 +68,18 @@ class MyApp : public cinder::app::App {
   po::SpritesheetAnimationRef mSpritesheetAnimation_gameover;
   po::SpritesheetRef mSpritesheet_nyan_cat;
   po::SpritesheetAnimationRef mSpritesheetAnimation_nyan_cat;
-
   ci::Anim<cinder::vec2> mPos;
   std::vector<po::SpritesheetAnimationRef> alien_spritesheetanim_vector;
+
   int alien_count = 0;
   int wave_count = 1;
   bool did_start = false;
   bool did_gameover_start = false;
   bool is_r_pressed = false;
-
-  bool mVideoSetup;
-  ciWMFVideoPlayer mVideo1;
-  ci::params::InterfaceGlRef mParams;
-  float	mFps;
-
   ci::gl::TextureRef texture_player;
   ci::gl::TextureRef texture_alien_bullet;
   ci::gl::TextureRef texture_player_bullet;
-  GameState state;
-
+  ciWMFVideoPlayer mVideo1;
 };
 
 }  // namespace myapp
