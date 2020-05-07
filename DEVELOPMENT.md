@@ -11,16 +11,16 @@
    - Create draw functions to draw alien waves (first as a square).            
  - **4/24/20** Work on the functionality of the game.
    - Create the projectile class.
-   - Having problem with firing the projectile. After the projectile is fired, if I let go of space bar or press any 
+   - Having problem with firing the projectile. If I let go of space bar or press any 
                 button, the projectile disappears/resets. How do I fix this?
    - Go to office hour.
    - Also fixed the error where the player and alien wave leaves its own object behind.
  - **4/28/20** Work on the functionality of the game.
-   - Create pointer projectile. Now I can delete the projectile and prevent memory leaks   
+   - Create projectile as a pointer.   
  - **4/29/20** Work on the functionality of the game.
    - Resize the projectile.
    - Alien can shoot projectile.
-   - Now work on the graphic. Find a sprite cinder block.
+   - Now work on the graphic. Find a cinder block that can animate sprites.
  - **5/3/20** Work on adding a cinder block.
     - Found multiple sprite cinder block libraries. However, all of them give different errors when I try
         to link it to my project.
@@ -36,10 +36,10 @@
     - Add a nyan cat to my game! 
  - **5/5/20** Work on creating game states.
     - A start screen which appears when the app is ran.
-    - A game over screen which the player gets hit by the alien's projectile.
- - **5/6/20** Work on Adding the score system.
+    - A game over screen when the player gets hit by the alien's projectile.
+ - **5/6/20** Work on adding a score system.
     - Now show current score and high score.
-    - The program crashes when trying to add the .ttf file to change the font of the messages in game.
+    - The program crashes when trying to add the .ttf file to change the font of the messages in the game.
     - Go to office hour.
     - Finally done! Fix couple bugs and write README.md.         
                              

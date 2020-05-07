@@ -53,7 +53,7 @@ class MyApp : public cinder::app::App {
   int alien_speed = 300;
   int nyan_cat_speed = 60;
   int player_speed = 25;
-  int projectile_speed = 6;
+  int projectile_speed = 8;
   int alien_projectile_speed = 14;
 
   space_invader::Engine engine;
