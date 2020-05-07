@@ -41,6 +41,10 @@ NyanCat Engine::GetNyanCat() const {
 int Engine::GetScore() const {
   return score;
 }
+int Engine::GetHighScore() const {
+  return high_score;
+}
+
 
 void Engine::AlienStep() {
   spawn_nyan_cat++;
@@ -48,6 +52,9 @@ void Engine::AlienStep() {
     Location alien_loc = MoveAlienWave(toRight, count_to_border);
     Location new_alien_loc = (alien.GetLocation() + alien_loc);
     alien.SetLocation(new_alien_loc);
+    if (alien.GetLocation().Col() == player.GetLocation().Col() && alien.IsVisibile()) {
+      player.SetVisibility(false);
+    }
   }
   count_to_border++;
   if (count_to_border == kDistanceToOppositeBorder) {
@@ -158,7 +165,9 @@ void Engine::AlienProjectileStep() {
 }
 
 void Engine::NyanCatStep() {
-  if (spawn_nyan_cat == 18) {
+  //18~
+
+  if (spawn_nyan_cat == random_nyan_spawn) {
     action_nyan_cat = Action::kNyanRight;
   }
   if (action_nyan_cat == Action::kNyanRight) {
@@ -168,7 +177,6 @@ void Engine::NyanCatStep() {
     action_nyan_cat = Action::kStop;
     nyan_cat.SetLocation({-3, 4});
     nyan_cat_distance = 0;
-   // killed_alien_count = 0;
   }
   Location nyan_cat_location = MoveNyanCat();
   Location new_nyan_cat_location = (nyan_cat.GetLocation() + nyan_cat_location);
@@ -240,17 +248,23 @@ void Engine::ResetGame() {
     alien.SetLocation(GetInitialAlienPosition(n));
     n++;
   }
+  random_nyan_spawn = std::rand() % 40 + 18;
   count_to_border = 0;
   projectile_distance = 0;
   alien_projectile_distance = 0;
   spawn_nyan_cat = 0;
   nyan_cat_distance = 0;
+  if (score > high_score) {
+    high_score = score;
+  }
   score = 0;
   action_nyan_cat = Action::kStop;
   nyan_cat.SetVisibility(true);
   nyan_cat.SetLocation({-3, 4});
   player.SetVisibility(true);
   toRight = true;
+
+
 }
 
 void Engine::NextWave() {
@@ -260,6 +274,7 @@ void Engine::NextWave() {
     alien.SetLocation(GetInitialAlienPosition(n));
     n++;
   }
+  random_nyan_spawn = std::rand() % 40 + 18;
   count_to_border = 0;
   projectile_distance = 0;
   alien_projectile_distance = 0;

@@ -22,6 +22,7 @@ class Engine {
   Projectile* Engine::GetAlienProjectile() const;
   NyanCat Engine::GetNyanCat() const;
   int Engine::GetScore() const;
+  int Engine::GetHighScore() const;
 
   void AlienStep();
   void PlayerStep();
@@ -60,7 +61,9 @@ class Engine {
   int alien_projectile_distance = 0;
   int nyan_cat_distance = 0;
   int score = 0;
+  int high_score = 0;
   int spawn_nyan_cat = 0;
+  int random_nyan_spawn = std::rand() % 40 + 18;
   bool toRight = true;
 
   int kDistanceToOppositeBorder = 16;

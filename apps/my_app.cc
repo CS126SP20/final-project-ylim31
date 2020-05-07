@@ -16,7 +16,6 @@ using cinder::app::KeyEvent;
 using std::chrono::duration_cast;
 using std::chrono::seconds;
 using std::chrono::system_clock;
-const char kNormalFont[] = "space_invaders.ttf";
 
 void MyApp::setup() {
   /*
@@ -57,10 +56,12 @@ void MyApp::update() {
     }
     if (time - last_time_projectile > std::chrono::milliseconds(projectile_speed)) {
       engine.PlayerProjectileStep();
-      engine.AlienProjectileStep();
       last_time_projectile = time;
     }
-
+    if (time - last_time_alien_projectile > std::chrono::milliseconds(alien_projectile_speed)) {
+      engine.AlienProjectileStep();
+      last_time_alien_projectile = time;
+    }
     for (po::SpritesheetAnimationRef alien_anim : alien_spritesheetanim_vector) {
       alien_anim->update();
     }
@@ -209,22 +210,30 @@ void MyApp::DrawStartScreen() {
 void MyApp::DrawScore() {
   const Color color = Color::white();
   const cinder::vec2 score_text = {60, 30};
-  const cinder::vec2 score = {160, 30};
-  const cinder::vec2 high_score_text = {600, 30};
-  const cinder::vec2 high_score = {720, 30};
+  const cinder::vec2 score_point = {160, 30};
   const cinder::ivec2 size = {200, 50};
-  int scores = engine.GetScore();
-  std::stringstream convert_to_string;
-  std::string scores_string;
-  convert_to_string << scores;
-  scores_string = convert_to_string.str();
-  while (scores_string.size() < 4) {
-    scores_string.insert(0, "0");
+
+  std::stringstream convert_score_to_string;
+  std::string score_string;
+  convert_score_to_string << engine.GetScore();
+  score_string = convert_score_to_string.str();
+  while (score_string.size() < 4) {
+    score_string.insert(0, "0");
   }
   PrintText("SCORE", color, size, score_text);
-  PrintText(scores_string, color, size, score);
+  PrintText(score_string, color, size, score_point);
+
+  std::stringstream convert_high_score_to_string;
+  std::string high_score_string;
+  convert_high_score_to_string << engine.GetHighScore();
+  high_score_string = convert_high_score_to_string.str();
+  while (high_score_string.size() < 4) {
+    high_score_string.insert(0, "0");
+  }
+  const cinder::vec2 high_score_text = {600, 30};
+  const cinder::vec2 high_score_point = {720, 30};
   PrintText("HI-SCORE", color, size, high_score_text);
-  PrintText("0000", color, size, high_score);
+  PrintText(high_score_string, color, size, high_score_point);
 }
 
 
@@ -247,7 +256,6 @@ void MyApp::SetGame() {
   mSpritesheet_nyan_cat = po::Spritesheet::create(texture_nyan_cat, json_nyan_cat);
   mSpritesheetAnimation_nyan_cat = po::SpritesheetAnimation::create(mSpritesheet_nyan_cat);
   mSpritesheetAnimation_nyan_cat->setIsLoopingEnabled(true);
-  //mSpritesheetAnimation_nyan_cat->setIsReverse(true, true);
   mSpritesheetAnimation_nyan_cat->setFrameRate(6);
   mSpritesheetAnimation_nyan_cat->play();
 

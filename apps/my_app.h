@@ -52,16 +52,18 @@ class MyApp : public cinder::app::App {
   const int kMaxWave = 3;
   const int kAlienMaxSpeed = 60;
 
-  int alien_speed = 300;
+  int alien_speed = 50;
   int nyan_cat_speed = 60;
-  int player_speed = 30;
-  int projectile_speed = 8;
+  int player_speed = 25;
+  int projectile_speed = 6;
+  int alien_projectile_speed = 12;
 
   space_invader::Engine engine;
   std::chrono::time_point<std::chrono::system_clock> last_time_alien;
   std::chrono::time_point<std::chrono::system_clock> last_time_nyan_cat;
   std::chrono::time_point<std::chrono::system_clock> last_time_player;
   std::chrono::time_point<std::chrono::system_clock> last_time_projectile;
+  std::chrono::time_point<std::chrono::system_clock> last_time_alien_projectile;
 
   po::SpritesheetRef mSpritesheet_gameover;
   po::SpritesheetAnimationRef mSpritesheetAnimation_gameover;
