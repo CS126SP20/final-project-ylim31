@@ -28,8 +28,6 @@ void MyApp::setup() {
   mParams->addParam<float>( "FPS", &mFps, true );
    */
   state = GameState::kStartScreen;
-
-
 }
 
 void MyApp::update() {
@@ -68,8 +66,9 @@ void MyApp::update() {
     }
     mSpritesheetAnimation_nyan_cat->update();
 
-    if (IsWaveClear()) {
-      ResetGame();
+    if (IsWaveClear() || is_r_pressed) {
+      is_r_pressed = false;
+      NextWave();
       if (alien_speed >= kAlienMaxSpeed) {
         alien_speed -= 20;
       }
@@ -84,9 +83,8 @@ void MyApp::update() {
     mSpritesheet_gameover = po::Spritesheet::create(texture, json);
     mSpritesheetAnimation_gameover = po::SpritesheetAnimation::create(mSpritesheet_gameover);
     mSpritesheetAnimation_gameover->play();
-    mSpritesheetAnimation_gameover->setFrameRate(4);
+    mSpritesheetAnimation_gameover->setFrameRate(6);
     did_gameover_start = true;
-
   }
   if (state == GameState::kGameOver && did_gameover_start) {
     mSpritesheetAnimation_gameover->update();
@@ -96,22 +94,25 @@ void MyApp::update() {
 
 void MyApp::draw() {
   cinder::gl::clear();
-  //mVideo1.draw( 0, 0, 800, 800 );
-  //mParams->draw();
+  DrawScore();
   if (state == GameState::kStartScreen) {
+    //cinder::gl::clear();
     DrawStartScreen();
     return;
   }
-  if (state == GameState::kGameOver) {
-    ci::gl::pushModelView();
-    mSpritesheetAnimation_gameover -> draw();
-    ci::gl::popModelView();
-  }
+  //mVideo1.draw( 0, 0, 800, 800 );
+  //mParams->draw();
   DrawPlayer();
   DrawPlayerProjectile();
   DrawAlienWave();
   DrawAlienProjectile();
-  //DrawNyanCat();
+  DrawNyanCat();
+
+  if (state == GameState::kGameOver) {
+    cinder::gl::clear();
+    DrawScore();
+    DrawGameOver();
+  }
 }
 
 void MyApp::keyDown(KeyEvent event) {
@@ -129,11 +130,16 @@ void MyApp::keyDown(KeyEvent event) {
       break;
     }
     case KeyEvent::KEY_r: {
-      ResetGame();
+      if (state == GameState::kGameOver) {
+        ResetGame();
+        is_r_pressed = true;
+      }
       break;
     }
     case KeyEvent::KEY_p: {
-      state = GameState::kPlaying;
+      if (state == GameState::kStartScreen) {
+        state = GameState::kPlaying;
+      }
       break;
     }
   }
@@ -160,11 +166,11 @@ template <typename C>
 void PrintText(const std::string& text, const C& color, const cinder::ivec2& size,
                const cinder::vec2& loc) {
   cinder::gl::color(color);
- // cinder::DataSourcePathRef font = cinder::DataSourcePath::create("space_invaders.ttf");
-  auto font = cinder::loadFile("player.png");
+  //cinder::DataSourcePathRef font = cinder::DataSourcePath::create("space_invaders.ttf");
+  auto font = cinder::app::loadAsset("space_invaders.ttf");
   auto box = ci::TextBox()
       .alignment(ci::TextBox::CENTER)
-      .font(cinder::Font("Arial", 30))
+      .font(cinder::Font(font, 20))
       .size(size)
       .color(color)
       .backgroundColor(ColorA(0, 0, 0,
@@ -178,14 +184,47 @@ void PrintText(const std::string& text, const C& color, const cinder::ivec2& siz
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
 }
+void MyApp::DrawGameOver() {
+  mPos = ci::vec2(getWindowCenter().x - 180, getWindowCenter().y);
+  ci::gl::pushModelView();
+  ci::vec2 val = mPos.value();
+  ci::gl::translate(val.x, val.y);
+  mSpritesheetAnimation_gameover -> draw();
+  ci::gl::popModelView();
+
+  const Color color = Color::white();
+  const cinder::vec2 restart_message = {getWindowCenter().x, getWindowCenter().y + 100};
+  const cinder::ivec2 size = {500, 50};
+  PrintText("PRESS R TO RESTART", color, size, restart_message);
+}
 
 void MyApp::DrawStartScreen() {
   const Color color = Color::white();
-  const cinder::vec2 score = {50, 50};
-  const cinder::vec2 play_message = getWindowCenter();
+  const cinder::vec2 game_title = getWindowCenter();
+  const cinder::vec2 play_message = {getWindowCenter().x, getWindowCenter().y + 50};
   const cinder::ivec2 size = {500, 50};
-  PrintText("Score", color, size, score);
-  PrintText("Play Space Invaders", color, size, play_message);
+  PrintText("SPACE  INVADERS", color, size, game_title);
+  PrintText("PRESS P TO PLAY", color, size, play_message);
+}
+void MyApp::DrawScore() {
+  const Color color = Color::white();
+  const cinder::vec2 score_text = {60, 30};
+  const cinder::vec2 score = {160, 30};
+  const cinder::vec2 high_score_text = {600, 30};
+  const cinder::vec2 high_score = {720, 30};
+  const cinder::ivec2 size = {200, 50};
+  int scores = engine.GetScore();
+  std::stringstream convert_to_string;
+  std::string scores_string;
+  convert_to_string << scores;
+  scores_string = convert_to_string.str();
+  while (scores_string.size() < 4) {
+    scores_string.insert(0, "0");
+  }
+  PrintText("SCORE", color, size, score_text);
+  PrintText(scores_string, color, size, score);
+  PrintText("HI-SCORE", color, size, high_score_text);
+  PrintText("0000", color, size, high_score);
 }
 
 
@@ -207,9 +246,10 @@ void MyApp::SetGame() {
   cinder::JsonTree json_nyan_cat = cinder::JsonTree(loadAsset("nyan_cat.json"));
   mSpritesheet_nyan_cat = po::Spritesheet::create(texture_nyan_cat, json_nyan_cat);
   mSpritesheetAnimation_nyan_cat = po::SpritesheetAnimation::create(mSpritesheet_nyan_cat);
-  mSpritesheetAnimation_nyan_cat->play();
   mSpritesheetAnimation_nyan_cat->setIsLoopingEnabled(true);
-  mSpritesheetAnimation_nyan_cat->setFrameRate(4);
+  //mSpritesheetAnimation_nyan_cat->setIsReverse(true, true);
+  mSpritesheetAnimation_nyan_cat->setFrameRate(6);
+  mSpritesheetAnimation_nyan_cat->play();
 
   texture_player = ci::gl::Texture::create(loadImage(loadAsset("player.png")));
   texture_alien_bullet = ci::gl::Texture::create(loadImage(loadAsset("alien_bullet.png")));
@@ -243,6 +283,9 @@ void MyApp::SetWaveAnimation(int wave_number) {
 }
 
 void MyApp::DrawNyanCat() {
+  if (!engine.GetNyanCat().IsVisibile()) {
+    return;
+  }
   space_invader::Location nyan_loc = engine.GetNyanCat().GetLocation();
   int x = nyan_loc.Row();
   int y = nyan_loc.Col();
@@ -279,7 +322,6 @@ void MyApp::DrawAlienProjectile() {
   ci::gl::draw(texture_alien_bullet, alien_projectile_location);
 }
 
-
 void MyApp::DrawAlienWave(){
   for (po::SpritesheetAnimationRef alien_anim : alien_spritesheetanim_vector) {
     space_invader::Location alien_loc = engine.GetAlienWave().GetAlienth(alien_count).GetLocation();
@@ -311,6 +353,13 @@ bool MyApp::IsWaveClear() {
 
 void MyApp::ResetGame(){
   engine.ResetGame();
+  wave_count = 0;
+  did_gameover_start = false;
+  state = GameState::kStartScreen;
+}
+
+void MyApp::NextWave(){
+  engine.NextWave();
 }
 
 }  // namespace myapp

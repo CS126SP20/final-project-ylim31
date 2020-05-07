@@ -21,6 +21,7 @@ class Engine {
   Projectile* Engine::GetProjectile() const;
   Projectile* Engine::GetAlienProjectile() const;
   NyanCat Engine::GetNyanCat() const;
+  int Engine::GetScore() const;
 
   void AlienStep();
   void PlayerStep();
@@ -39,6 +40,7 @@ class Engine {
   Location Engine::MoveNyanCat();
 
   void Engine::ResetGame();
+  void Engine::NextWave();
   Location Engine::GetInitialAlienPosition(int n);
  private:
   AlienWave alien_wave;
@@ -56,7 +58,9 @@ class Engine {
   int count_to_border = 0;
   int projectile_distance = 0;
   int alien_projectile_distance = 0;
-  int show_nyan = 0;
+  int nyan_cat_distance = 0;
+  int score = 0;
+  int spawn_nyan_cat = 0;
   bool toRight = true;
 
   int kDistanceToOppositeBorder = 16;

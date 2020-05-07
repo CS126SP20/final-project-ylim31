@@ -42,8 +42,10 @@ class MyApp : public cinder::app::App {
   void DrawNyanCat();
   void DrawStartScreen();
   void DrawGameOver();
+  void DrawScore();
 
   void MyApp::ResetGame();
+  void MyApp::NextWave();
   bool MyApp::IsWaveClear();
 
   const size_t kTileSize = 50/3;
@@ -51,9 +53,9 @@ class MyApp : public cinder::app::App {
   const int kAlienMaxSpeed = 60;
 
   int alien_speed = 300;
-  int nyan_cat_speed = 100;
+  int nyan_cat_speed = 60;
   int player_speed = 30;
-  int projectile_speed = 12;
+  int projectile_speed = 8;
 
   space_invader::Engine engine;
   std::chrono::time_point<std::chrono::system_clock> last_time_alien;
@@ -72,6 +74,7 @@ class MyApp : public cinder::app::App {
   int wave_count = 1;
   bool did_start = false;
   bool did_gameover_start = false;
+  bool is_r_pressed = false;
 
   bool mVideoSetup;
   ciWMFVideoPlayer mVideo1;
